@@ -1,6 +1,6 @@
 pragma solidity ^0.8.0;
 
-interface ISparkfiAdapter {
+interface IAdapter {
   function name() external view returns (string memory);
 
   function query(

@@ -5,9 +5,9 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "../helpers/TransferHelper.sol";
-import "./interfaces/ISparkfiAdapter.sol";
+import "./interfaces/IAdapter.sol";
 
-abstract contract SparkfiAdapter is ISparkfiAdapter, AccessControl, Ownable {
+abstract contract Adapter is IAdapter, AccessControl, Ownable {
   using SafeMath for uint256;
 
   string public name;

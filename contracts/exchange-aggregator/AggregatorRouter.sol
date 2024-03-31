@@ -4,13 +4,13 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
-import "./interfaces/ISparkfiRouter.sol";
-import "./interfaces/ISparkfiAdapter.sol";
+import "./interfaces/IAggregatorRouter.sol";
+import "./interfaces/IAdapter.sol";
 import "./interfaces/IWETH.sol";
 import "../helpers/TransferHelper.sol";
 import "./lib/ViewUtils.sol";
 
-contract SparkfiRouter is ISparkfiRouter, AccessControl, Ownable, ReentrancyGuard {
+contract AggregatorRouter is IAggregatorRouter, AccessControl, Ownable, ReentrancyGuard {
   using Address for address;
   using OfferUtils for Offer;
 
@@ -99,7 +99,7 @@ contract SparkfiRouter is ISparkfiRouter, AccessControl, Ownable, ReentrancyGuar
   ) public view returns (Query memory _bestQuery) {
     address[] memory adpts = adapters;
     for (uint256 i = 0; i < adpts.length; i++) {
-      uint256 amountOut = ISparkfiAdapter(adpts[i]).query(tokenIn, tokenOut, amountIn);
+      uint256 amountOut = IAdapter(adpts[i]).query(tokenIn, tokenOut, amountIn);
 
       if (i == 0 || amountOut > _bestQuery.amountOut) {
         _bestQuery = Query(adpts[i], tokenIn, tokenOut, amountOut);
@@ -116,7 +116,7 @@ contract SparkfiRouter is ISparkfiRouter, AccessControl, Ownable, ReentrancyGuar
     Query memory bestQuery;
     for (uint8 i; i < _options.length; i++) {
       address _adapter = adapters[_options[i]];
-      uint256 amountOut = ISparkfiAdapter(_adapter).query(_tokenIn, _tokenOut, _amountIn);
+      uint256 amountOut = IAdapter(_adapter).query(_tokenIn, _tokenOut, _amountIn);
       if (i == 0 || amountOut > bestQuery.amountOut) {
         bestQuery = Query(_adapter, _tokenIn, _tokenOut, amountOut);
       }
@@ -155,7 +155,7 @@ contract SparkfiRouter is ISparkfiRouter, AccessControl, Ownable, ReentrancyGuar
     }
 
     for (uint256 i = 0; i < adpts.length; i++) {
-      amounts[i + 1] = ISparkfiAdapter(adpts[i]).query(trade.path[i], trade.path[i + 1], amounts[i]);
+      amounts[i + 1] = IAdapter(adpts[i]).query(trade.path[i], trade.path[i + 1], amounts[i]);
     }
 
     require(amounts[amounts.length - 1] >= trade.amountOut, "insufficient output amount");
@@ -253,7 +253,7 @@ contract SparkfiRouter is ISparkfiRouter, AccessControl, Ownable, ReentrancyGuar
 
     if (queryDirect.amountOut != 0) {
       if (withGas) {
-        gasEstimate = ISparkfiAdapter(queryDirect.adapter).swapGasEstimate();
+        gasEstimate = IAdapter(queryDirect.adapter).swapGasEstimate();
       }
       bestOption.addToTail(queryDirect.amountOut, queryDirect.adapter, queryDirect.tokenOut, gasEstimate);
       bestAmountOut = queryDirect.amountOut;
@@ -273,7 +273,7 @@ contract SparkfiRouter is ISparkfiRouter, AccessControl, Ownable, ReentrancyGuar
         // Explore options that connect the current path to the tokenOut
         Offer memory newOffer = _queries.clone();
         if (withGas) {
-          gasEstimate = ISparkfiAdapter(bestSwap.adapter).swapGasEstimate();
+          gasEstimate = IAdapter(bestSwap.adapter).swapGasEstimate();
         }
         newOffer.addToTail(bestSwap.amountOut, bestSwap.adapter, bestSwap.tokenOut, gasEstimate);
         newOffer = _findBestPath(bestSwap.amountOut, TRUSTED_TOKENS[i], _tokenOut, _maxSteps, newOffer, _tknOutPriceNwei); // Recursive step

@@ -1,12 +1,12 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "../interfaces/IAerodromeFactory.sol";
-import "../interfaces/IAerodromePool.sol";
-import "../SparkfiAdapter.sol";
+import "../../protocol/interfaces/IPool.sol";
+import "../../protocol/interfaces/factories/IPoolFactory.sol";
+import "../Adapter.sol";
 import "../../helpers/TransferHelper.sol";
 
-contract AerodromeAdapter is SparkfiAdapter {
+contract MoniswapAdapter is Adapter {
   using SafeMath for uint256;
   address public immutable factory;
 
@@ -14,7 +14,7 @@ contract AerodromeAdapter is SparkfiAdapter {
     string memory _name,
     address _factory,
     uint256 _swapGasEstimate
-  ) SparkfiAdapter(_name, _swapGasEstimate) {
+  ) Adapter(_name, _swapGasEstimate) {
     factory = _factory;
   }
 
@@ -26,9 +26,9 @@ contract AerodromeAdapter is SparkfiAdapter {
     if (tokenIn == tokenOut || amountIn == 0) return 0;
 
     // Try stable first
-    address pair = IPoolFactory(factory).getPool(tokenIn, tokenOut, 1);
+    address pair = IPoolFactory(factory).getPool(tokenIn, tokenOut, true);
 
-    if (pair == address(0)) pair = IPoolFactory(factory).getPool(tokenIn, tokenOut, 0); // Try volatile
+    if (pair == address(0)) pair = IPoolFactory(factory).getPool(tokenIn, tokenOut, false); // Try volatile
 
     if (pair == address(0)) return 0;
 
@@ -43,9 +43,9 @@ contract AerodromeAdapter is SparkfiAdapter {
     uint256 amountOut
   ) internal override {
     // Try stable first
-    address pair = IPoolFactory(factory).getPool(tokenIn, tokenOut, 1);
+    address pair = IPoolFactory(factory).getPool(tokenIn, tokenOut, true);
 
-    if (pair == address(0)) pair = IPoolFactory(factory).getPool(tokenIn, tokenOut, 0); // Try volatile
+    if (pair == address(0)) pair = IPoolFactory(factory).getPool(tokenIn, tokenOut, false); // Try volatile
 
     (uint256 amount0Out, uint256 amount1Out) = tokenIn < tokenOut ? (uint256(0), amountOut) : (amountOut, uint256(0));
     TransferHelpers._safeTransferERC20(tokenIn, pair, amountIn);
