@@ -27,7 +27,7 @@ struct Trade {
   address[] adapters;
 }
 
-interface ISparkfiRouter {
+interface IAggregatorRouter {
   function query(
     address tokenIn,
     address tokenOut,

@@ -101,5 +101,7 @@ interface IPoolFactory {
 
   function voter() external view returns (address);
 
+  function protocolAddress() external view returns (address);
+
   function implementation() external view returns (address);
 }

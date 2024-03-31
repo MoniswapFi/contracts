@@ -345,7 +345,7 @@ contract Pool is IPool, ERC20Permit, ReentrancyGuard {
     uint256 _totalSupply = totalSupply(); // gas savings, must be defined here since totalSupply can update in _mintFee
     if (_totalSupply == 0) {
       liquidity = Math.sqrt(_amount0 * _amount1) - MINIMUM_LIQUIDITY;
-      _mint(address(1), MINIMUM_LIQUIDITY); // permanently lock the first MINIMUM_LIQUIDITY tokens - cannot be address(0)
+      _mint(IPoolFactory(factory).protocolAddress(), MINIMUM_LIQUIDITY); // mint minimum liquidity to protocol address
       if (stable) {
         if ((_amount0 * 1e18) / decimals0 != (_amount1 * 1e18) / decimals1) revert DepositsNotEqual();
         if (_k(_amount0, _amount1) <= MINIMUM_K) revert BelowMinimumK();

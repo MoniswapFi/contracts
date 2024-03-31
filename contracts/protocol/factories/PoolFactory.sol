@@ -22,6 +22,8 @@ contract PoolFactory is IPoolFactory {
   /// @dev used to change the name/symbol of the pool by calling emergencyCouncil
   address public voter;
 
+  address public protocolAddress;
+
   mapping(address => mapping(address => mapping(bool => address))) private _getPool;
   address[] public allPools;
   mapping(address => bool) private _isPool; // simplified check if its a pool, given that `stable` flag might not be available in peripherals
@@ -31,7 +33,7 @@ contract PoolFactory is IPoolFactory {
   address internal _temp1;
   bool internal _temp;
 
-  constructor(address _implementation) {
+  constructor(address _implementation, address _protocolAddress) {
     implementation = _implementation;
     voter = msg.sender;
     pauser = msg.sender;
@@ -39,6 +41,7 @@ contract PoolFactory is IPoolFactory {
     isPaused = false;
     stableFee = 5; // 0.05%
     volatileFee = 30; // 0.3%
+    protocolAddress = _protocolAddress;
   }
 
   /// @inheritdoc IPoolFactory
