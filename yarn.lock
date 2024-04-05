@@ -872,6 +872,13 @@
     ethers "^4.0.0-beta.1"
     source-map-support "^0.5.19"
 
+"@opengsn/contracts@^3.0.0-beta.6":
+  version "3.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@opengsn/contracts/-/contracts-3.0.0-beta.6.tgz#3455b7c249922a087422721689239a7d539d1138"
+  integrity sha512-zqd7BG339Uq5bfx40CwKXr2waaJqLN9qBVllcWhKBGnkZPKR59wVIPh2zTNzvLorndMRWB3TnOQxAr6tZKjwGQ==
+  dependencies:
+    "@openzeppelin/contracts" "^4.2.0"
+
 "@openzeppelin/contract-loader@^0.6.2":
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/@openzeppelin/contract-loader/-/contract-loader-0.6.3.tgz#61a7b44de327e40b7d53f39e0fb59bbf847335c3"
@@ -884,6 +891,11 @@
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.9.0.tgz#683f33b6598970051bc5f0806fd8660da9e018dd"
   integrity sha512-DUP74AFGKlic2sQb/CmgrN2aUPMFGxRrmCTUxLHsiU2RzwWqVuMPZBxiAyvlff6Pea77uylAX6B5x9W6evEbhA==
+
+"@openzeppelin/contracts@^4.2.0":
+  version "4.9.6"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.9.6.tgz#2a880a24eb19b4f8b25adc2a5095f2aa27f39677"
+  integrity sha512-xSmezSupL+y9VkHZJGDoCBpmnB2ogM13ccaYDWqJTfS3dbuHkgjuwDFUmaFauBCboQMGB/S5UqUl2y54X99BmA==
 
 "@openzeppelin/test-helpers@^0.5.15":
   version "0.5.15"
