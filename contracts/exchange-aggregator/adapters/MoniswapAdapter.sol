@@ -10,11 +10,7 @@ contract MoniswapAdapter is Adapter {
   using SafeMath for uint256;
   address public immutable factory;
 
-  constructor(
-    string memory _name,
-    address _factory,
-    uint256 _swapGasEstimate
-  ) Adapter(_name, _swapGasEstimate) {
+  constructor(address _factory, uint256 _swapGasEstimate) Adapter("Moniswap", _swapGasEstimate) {
     factory = _factory;
   }
 

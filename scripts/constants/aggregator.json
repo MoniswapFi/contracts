@@ -1,0 +1,10 @@
+{
+  "97": {
+    "pancakeswapLikeAdapters": [
+      {
+        "factory": "0x6725F303b657a9451d8BA641348b6761A6CC7a17",
+        "name": "Pancakeswap"
+      }
+    ]
+  }
+}

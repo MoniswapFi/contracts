@@ -21,7 +21,7 @@ import {
   VotingEscrow,
   ProtocolForwarder
 } from "../artifacts/types";
-import constants from "./constants/index.json";
+import constants from "./constants/protocol.json";
 
 interface ProtocolOutput {
   AirdropDistributor: string;

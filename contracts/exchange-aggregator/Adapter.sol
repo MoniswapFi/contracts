@@ -16,9 +16,10 @@ abstract contract Adapter is IAdapter, AccessControl, Ownable {
 
   event AdapterSwap(address indexed tokenIn, address indexed tokenOut, address to, uint256 amountIn, uint256 amountOut);
   event UpdatedGasEstimate(address indexed _adapter, uint256 _newEstimate);
+  event SetName(string name);
 
   constructor(string memory _name, uint256 _gasEstimate) Ownable() {
-    name = _name;
+    setName(_name);
     _grantRole(maintainerRole, _msgSender());
     setSwapGasEstimate(_gasEstimate);
   }
@@ -31,6 +32,7 @@ abstract contract Adapter is IAdapter, AccessControl, Ownable {
   function setName(string memory _name) internal {
     require(bytes(_name).length != 0, "invalid adapter name");
     name = _name;
+    emit SetName(_name);
   }
 
   function setMaintainer(address maintainer) external onlyOwner {
