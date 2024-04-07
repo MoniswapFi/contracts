@@ -1,6 +1,6 @@
 pragma solidity ^0.8.0;
 
-import {Offer, FormattedOffer} from "../interfaces/ISparkfiRouter.sol";
+import {Offer, FormattedOffer} from "../interfaces/IAggregatorRouter.sol";
 import "../../helpers/TypeConversion.sol";
 
 library OfferUtils {
