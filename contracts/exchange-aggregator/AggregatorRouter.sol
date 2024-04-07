@@ -34,10 +34,10 @@ contract AggregatorRouter is IAggregatorRouter, AccessControl, Ownable, Reentran
     address _weth,
     address[] memory _trustedTokens
   ) {
-    adapters = _adapters;
     FEE_CLAIMER = _feeClaimer;
     WETH = _weth;
     _grantRole(maintainerRole, _msgSender());
+    setAdapters(_adapters);
     TRUSTED_TOKENS = _trustedTokens;
     TRUSTED_TOKENS.push(_weth);
   }
@@ -66,7 +66,7 @@ contract AggregatorRouter is IAggregatorRouter, AccessControl, Ownable, Reentran
     FEE_CLAIMER = _feeClaimer;
   }
 
-  function setAdapters(address[] memory _adapters) external onlyMaintainer {
+  function setAdapters(address[] memory _adapters) public onlyMaintainer {
     adapters = _adapters;
     emit SetAdapters(_adapters);
   }
