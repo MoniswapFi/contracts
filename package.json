@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "rm -rf artifacts && npx hardhat test",
-    "format": "prettier --write **/**/*.{js,json,sol,ts}",
+    "format": "prettier --write **/**/*.{js,json,sol,ts,md}",
     "deploy:core:artio": "npx hardhat run scripts/DeployCore.ts --network beraArtio",
     "deploy:core:bscTestnet": "npx hardhat run scripts/DeployCore.ts --network bscTestnet",
     "deploy:gauges:bscTestnet": "npx hardhat run scripts/DeployGaugesAndPools.ts --network bscTestnet",
