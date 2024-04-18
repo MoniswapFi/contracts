@@ -29,9 +29,10 @@ const config: HardhatUserConfig = {
       chainId: 1337
     },
     beraArtio: {
-      url: "https://artio.rpc.berachain.com",
+      url: "https://polished-long-spree.bera-artio.quiknode.pro/bc216048277e5d97ff2cdf096370d494f38ed543/",
       accounts: [process.env.PRIVATE_KEY as string], // Try stealing the funds in this
-      chainId: 80085
+      chainId: 80085,
+      gasPrice: 350000000,
     },
     bscTestnet: {
       url: "https://rpc.ankr.com/bsc_testnet_chapel/7aa3ec98398d86e381952176c8b3db66b572761888fc42546e83e4b0e4a671ae",
