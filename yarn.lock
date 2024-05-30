@@ -1290,6 +1290,11 @@
   resolved "https://registry.yarnpkg.com/@ungap/promise-all-settled/-/promise-all-settled-1.1.2.tgz#aa58042711d6e3275dd37dc597e5d31e8c290a44"
   integrity sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==
 
+"@xyrusworx/hardhat-solidity-json@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@xyrusworx/hardhat-solidity-json/-/hardhat-solidity-json-1.0.2.tgz#7360c84207f4f678c508a4732710dc874ee71557"
+  integrity sha512-cr00OHv6CMl/e9XzYu+8/78zjUgEX+g+Z1v67PASosaqmnMVS6d4+jebhgKoWt/vmXfhC06NeKOlsUKNZsGKhQ==
+
 "@yarnpkg/lockfile@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"

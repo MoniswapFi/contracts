@@ -1,3 +1,4 @@
+import "@nomiclabs/hardhat-ethers";
 import { deploy, deployLibrary } from "./utils/helpers";
 import { writeFile, readFile } from "fs/promises";
 import { join } from "path";
