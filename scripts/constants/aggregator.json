@@ -5,6 +5,16 @@
         "factory": "0x6725F303b657a9451d8BA641348b6761A6CC7a17",
         "name": "Pancakeswap"
       }
-    ]
+    ],
+    "uniswapV3LikeAdapters": []
+  },
+  "80085": {
+    "pancakeswapLikeAdapters": [
+      {
+        "factory": "0xd46ddC7265ec9E4bD5CF8ed2424021801aA04b8A",
+        "name": "Kodiak Finance V2"
+      }
+    ],
+    "uniswapV3LikeAdapters": []
   }
 }

@@ -1,21 +1,21 @@
 pragma solidity ^0.8.0;
 
 interface IAdapter {
-  function name() external view returns (string memory);
+    function name() external view returns (string memory);
 
-  function query(
-    address,
-    address,
-    uint256
-  ) external view returns (uint256);
+    function query(
+        address,
+        address,
+        uint256
+    ) external view returns (uint256);
 
-  function swap(
-    address,
-    address,
-    address,
-    uint256,
-    uint256
-  ) external;
+    function swap(
+        address,
+        address,
+        address,
+        uint256,
+        uint256
+    ) external;
 
-  function swapGasEstimate() external view returns (uint256);
+    function swapGasEstimate() external view returns (uint256);
 }

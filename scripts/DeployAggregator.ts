@@ -5,7 +5,7 @@ import { join } from "path";
 import constants from "./constants/aggregator.json";
 import protocolConstants from "./constants/protocol.json";
 import deployedContracts from "./constants/output/ProtocolOutput.json";
-import { AggregatorRouter, MoniswapAdapter, PancakeswapLikeAdapter } from "../artifacts/types";
+import { AggregatorRouter, MoniswapAdapter, PancakeswapLikeAdapter, UniswapV3Adapter } from "../artifacts/types";
 
 interface AggregatorOutput {
   Adapters: string[];

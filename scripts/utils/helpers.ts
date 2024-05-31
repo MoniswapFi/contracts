@@ -22,4 +22,3 @@ export async function getContractAt<Type>(typeName: string, address: string): Pr
   const ctr = (await ethers.getContractAt(typeName, address)) as unknown as Type;
   return ctr;
 }
-

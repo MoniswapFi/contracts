@@ -18,17 +18,17 @@ import {GovernorSimpleVotes} from "./governance/GovernorSimpleVotes.sol";
  *      no values.
  */
 contract EpochGovernor is GovernorSimple, GovernorCountingMajority, GovernorSimpleVotes {
-  constructor(
-    address _forwarder,
-    IVotes _ve,
-    address _minter
-  ) GovernorSimple(_forwarder, "Epoch Governor", _minter) GovernorSimpleVotes(_ve) {}
+    constructor(
+        address _forwarder,
+        IVotes _ve,
+        address _minter
+    ) GovernorSimple(_forwarder, "Epoch Governor", _minter) GovernorSimpleVotes(_ve) {}
 
-  function votingDelay() public pure override(IGovernor) returns (uint256) {
-    return (15 minutes);
-  }
+    function votingDelay() public pure override(IGovernor) returns (uint256) {
+        return (15 minutes);
+    }
 
-  function votingPeriod() public pure override(IGovernor) returns (uint256) {
-    return (1 weeks);
-  }
+    function votingPeriod() public pure override(IGovernor) returns (uint256) {
+        return (1 weeks);
+    }
 }

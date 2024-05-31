@@ -27,14 +27,6 @@
       {
         "stable": false,
         "token": "0x5806E416dA447b267cEA759358cF22Cc41FAE80F"
-      },
-      {
-        "stable": false,
-        "token": "0x6581e59A1C8dA66eD0D313a0d4029DcE2F746Cc5"
-      },
-      {
-        "stable": false,
-        "token": "0x8239FBb3e3D0C2cDFd7888D8aF7701240Ac4DcA4"
       }
     ],
     "minter": {
