@@ -10,7 +10,10 @@
     "deploy:core:bscTestnet": "npx hardhat run scripts/DeployCore.ts --network bscTestnet",
     "deploy:gauges:bscTestnet": "npx hardhat run scripts/DeployGaugesAndPools.ts --network bscTestnet",
     "deploy:governors:bscTestnet": "npx hardhat run scripts/DeployGovernors.ts --network bscTestnet",
-    "deploy:aggregator:bscTestnet": "npx hardhat run scripts/DeployAggregator.ts --network bscTestnet"
+    "deploy:aggregator:bscTestnet": "npx hardhat run scripts/DeployAggregator.ts --network bscTestnet",
+    "deploy:gauges:artio": "npx hardhat run scripts/DeployGaugesAndPools.ts --network beraArtio",
+    "deploy:governors:artio": "npx hardhat run scripts/DeployGovernors.ts --network beraArtio",
+    "deploy:aggregator:artio": "npx hardhat run scripts/DeployAggregator.ts --network beraArtio"
   },
   "repository": {
     "type": "git",
@@ -56,6 +59,7 @@
     "web3": "^1.7.5"
   },
   "dependencies": {
-    "@opengsn/contracts": "^3.0.0-beta.6"
+    "@opengsn/contracts": "^3.0.0-beta.6",
+    "solhint": "^5.0.1"
   }
 }
