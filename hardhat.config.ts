@@ -1,5 +1,6 @@
 import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-ganache";
+import "@nomicfoundation/hardhat-verify";
 import "@typechain/hardhat";
 import "@xyrusworx/hardhat-solidity-json";
 
@@ -54,6 +55,21 @@ const config: HardhatUserConfig = {
   typechain: {
     outDir: "./artifacts/types",
     target: "ethers-v5"
+  },
+  etherscan: {
+    apiKey: {
+      beraBartio: "beraBartio"
+    },
+    customChains: [
+      {
+        network: "beraBartio",
+        chainId: 80084,
+        urls: {
+          apiURL: "https://api.routescan.io/v2/network/testnet/evm/80084/etherscan",
+          browserURL: "https://bartio.beratrail.io"
+        }
+      }
+    ]
   }
 };
 
