@@ -1,4 +1,65 @@
 {
+  "80084": {
+    "allowedManager": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",
+    "feeManager": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",
+    "emergencyCouncil": "0x2749fb5F7737F3ED173aa5bA5e56BAB551AE77d7",
+    "team": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",
+    "WETH": "0x7507c1dc16935B82698e4C63f2746A2fCf994dF8",
+    "whitelistTokens": [
+      "0xd6D83aF58a19Cd14eF3CF6fe848C9A4d21e5727c",
+      "0x6E1E9896e93F7A71ECB33d4386b49DeeD67a231A",
+      "0x7507c1dc16935B82698e4C63f2746A2fCf994dF8",
+      "0x05D0dD5135E3eF3aDE32a9eF9Cb06e8D37A6795D"
+    ],
+    "pools": [
+      {
+        "stable": false,
+        "tokenA": "0xd6D83aF58a19Cd14eF3CF6fe848C9A4d21e5727c",
+        "tokenB": "0x7507c1dc16935B82698e4C63f2746A2fCf994dF8"
+      },
+      {
+        "stable": false,
+        "tokenA": "0x05D0dD5135E3eF3aDE32a9eF9Cb06e8D37A6795D",
+        "tokenB": "0x7507c1dc16935B82698e4C63f2746A2fCf994dF8"
+      }
+    ],
+    "poolsMoni": [
+      {
+        "stable": false,
+        "token": "0x7507c1dc16935B82698e4C63f2746A2fCf994dF8"
+      },
+      {
+        "stable": false,
+        "token": "0xd6D83aF58a19Cd14eF3CF6fe848C9A4d21e5727c"
+      },
+      {
+        "stable": false,
+        "token": "0x05D0dD5135E3eF3aDE32a9eF9Cb06e8D37A6795D"
+      }
+    ],
+    "minter": {
+      "liquid": [
+        {
+          "amount": 50000000000000000000000000,
+          "wallet": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578"
+        }
+      ],
+      "locked": [
+        {
+          "amount": 70000000000000000000000000,
+          "wallet": "0x2749fb5F7737F3ED173aa5bA5e56BAB551AE77d7"
+        },
+        {
+          "amount": 50000000000000000000000000,
+          "wallet": "0x86e6C69D7C05B4cab7aDce875155cb9bc1f87188"
+        },
+        {
+          "amount": 25000000000000000000000000,
+          "wallet": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578"
+        }
+      ]
+    }
+  },
   "80085": {
     "allowedManager": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",
     "feeManager": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",

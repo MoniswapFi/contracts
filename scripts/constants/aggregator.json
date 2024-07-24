@@ -1,20 +1,15 @@
 {
-  "97": {
-    "pancakeswapLikeAdapters": [
+  "80084": {
+    "uniswapV2LikeAdapters": [
       {
-        "factory": "0x6725F303b657a9451d8BA641348b6761A6CC7a17",
-        "name": "Pancakeswap"
-      }
-    ],
-    "uniswapV3LikeAdapters": []
-  },
-  "80085": {
-    "pancakeswapLikeAdapters": [
-      {
-        "factory": "0xd46ddC7265ec9E4bD5CF8ed2424021801aA04b8A",
+        "factory": "0xb08Bfed214ba87d5d5D07B7DA573010016C44488",
         "name": "Kodiak Finance V2"
       }
     ],
-    "uniswapV3LikeAdapters": []
+    "uniswapV3LikeAdapters": [],
+    "bexAdapter": {
+      "factory": "0xAB827b1Cc3535A9e549EE387A6E9C3F02F481B49",
+      "oracle": "0x8685CE9Db06D40CBa73e3d09e6868FE476B5dC89"
+    }
   }
 }

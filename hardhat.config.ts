@@ -37,6 +37,14 @@ const config: HardhatUserConfig = {
       gas: "auto",
       gasMultiplier: 1
     },
+    beraBartio: {
+      url: "https://bartio.rpc.berachain.com",
+      accounts: [process.env.PRIVATE_KEY as string], // Try stealing the funds in this
+      chainId: 80084,
+      gasPrice: "auto",
+      gas: "auto",
+      gasMultiplier: 1
+    },
     bscTestnet: {
       url: "https://rpc.ankr.com/bsc_testnet_chapel/7aa3ec98398d86e381952176c8b3db66b572761888fc42546e83e4b0e4a671ae",
       accounts: [process.env.PRIVATE_KEY as string], // Try stealing the funds in this
