@@ -14,22 +14,24 @@ async function main() {
   // Deploy non-MONI pools and gauges
   for (var i = 0; i < configConstants.pools.length; i++) {
     const { stable, tokenA, tokenB } = configConstants.pools[i];
-    await factory.functions["createPool(address,address,bool)"](tokenA, tokenB, stable);
+    await factory.functions["createPool(address,address,bool)"](tokenA, tokenB, stable, { gasLimit: 5000000 });
     let pool = await factory.functions["getPool(address,address,bool)"](tokenA, tokenB, stable);
     await voter.createGauge(
       deployedCtr.PoolFactory, // PoolFactory
-      pool[0]
+      pool[0],
+      { gasLimit: 5000000 }
     );
   }
 
   // Deploy AERO pools and gauges
   for (var i = 0; i < configConstants.poolsMoni.length; i++) {
     const [stable, token] = Object.values(configConstants.poolsMoni[i]);
-    await factory.functions["createPool(address,address,bool)"](deployedCtr.MONI, token as string, stable as boolean);
+    await factory.functions["createPool(address,address,bool)"](deployedCtr.MONI, token as string, stable as boolean, { gasLimit: 5000000 });
     let pool = await factory.functions["getPool(address,address,bool)"](deployedCtr.MONI, token as string, stable as boolean);
     await voter.createGauge(
       deployedCtr.PoolFactory, // PoolFactory
-      pool[0]
+      pool[0],
+      { gasLimit: 5000000 }
     );
   }
 }

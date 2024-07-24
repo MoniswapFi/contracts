@@ -5,7 +5,7 @@ import { join } from "path";
 import constants from "./constants/aggregator.json";
 import protocolConstants from "./constants/protocol.json";
 import deployedContracts from "./constants/output/ProtocolOutput.json";
-import { AggregatorRouter, MoniswapAdapter, PancakeswapLikeAdapter, UniswapV3Adapter } from "../artifacts/types";
+import { AggregatorRouter, MoniswapAdapter, UniswapV2Adapter, BexAdapter } from "../artifacts/types";
 
 interface AggregatorOutput {
   Adapters: string[];
@@ -24,10 +24,14 @@ async function main() {
 
   Adapters.push(moniswapAdapter.address);
 
-  for (const adptr of aggConstants.pancakeswapLikeAdapters) {
-    const pancakeswapLikeAdapter = await deploy<PancakeswapLikeAdapter>("PancakeswapLikeAdapter", undefined, adptr.name, adptr.factory, 25, 215000);
-    Adapters.push(pancakeswapLikeAdapter.address);
+  for (const adptr of aggConstants.uniswapV2LikeAdapters) {
+    const uniswapV2LikeAdapter = await deploy<UniswapV2Adapter>("UniswapV2Adapter", undefined, adptr.name, adptr.factory, 25, 215000);
+    Adapters.push(uniswapV2LikeAdapter.address);
   }
+
+  const bexAdapter = await deploy<BexAdapter>("BexAdapter", undefined, aggConstants.bexAdapter.factory, 215000, aggConstants.bexAdapter.oracle);
+
+  Adapters.push(bexAdapter.address);
 
   const aggregatorRouter = await deploy<AggregatorRouter>(
     "AggregatorRouter",

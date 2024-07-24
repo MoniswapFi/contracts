@@ -6,14 +6,15 @@
   "scripts": {
     "test": "rm -rf artifacts && npx hardhat test",
     "format": "prettier --write **/**/*.{js,json,sol,ts,md}",
-    "deploy:core:artio": "npx hardhat run scripts/DeployCore.ts --network beraArtio",
+    "deploy:core:bartio": "npx hardhat run scripts/DeployCore.ts --network beraBartio",
     "deploy:core:bscTestnet": "npx hardhat run scripts/DeployCore.ts --network bscTestnet",
     "deploy:gauges:bscTestnet": "npx hardhat run scripts/DeployGaugesAndPools.ts --network bscTestnet",
     "deploy:governors:bscTestnet": "npx hardhat run scripts/DeployGovernors.ts --network bscTestnet",
     "deploy:aggregator:bscTestnet": "npx hardhat run scripts/DeployAggregator.ts --network bscTestnet",
-    "deploy:gauges:artio": "npx hardhat run scripts/DeployGaugesAndPools.ts --network beraArtio",
-    "deploy:governors:artio": "npx hardhat run scripts/DeployGovernors.ts --network beraArtio",
-    "deploy:aggregator:artio": "npx hardhat run scripts/DeployAggregator.ts --network beraArtio"
+    "deploy:gauges:bartio": "npx hardhat run scripts/DeployGaugesAndPools.ts --network beraBartio",
+    "deploy:governors:bartio": "npx hardhat run scripts/DeployGovernors.ts --network beraBartio",
+    "deploy:aggregator:bartio": "npx hardhat run scripts/DeployAggregator.ts --network beraBartio",
+    "compile": "npx hardhat compile"
   },
   "repository": {
     "type": "git",
