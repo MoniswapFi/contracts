@@ -14,7 +14,8 @@
     "deploy:gauges:bartio": "npx hardhat run scripts/DeployGaugesAndPools.ts --network beraBartio",
     "deploy:governors:bartio": "npx hardhat run scripts/DeployGovernors.ts --network beraBartio",
     "deploy:aggregator:bartio": "npx hardhat run scripts/DeployAggregator.ts --network beraBartio",
-    "compile": "npx hardhat compile"
+    "compile": "npx hardhat compile",
+    "jsonify": "npx hardhat solidity-json"
   },
   "repository": {
     "type": "git",
@@ -60,6 +61,7 @@
     "web3": "^1.7.5"
   },
   "dependencies": {
+    "@nomicfoundation/hardhat-verify": "^2.0.8",
     "@opengsn/contracts": "^3.0.0-beta.6",
     "solhint": "^5.0.1"
   }
