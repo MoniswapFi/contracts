@@ -10,6 +10,11 @@
     "bexAdapter": {
       "factory": "0xAB827b1Cc3535A9e549EE387A6E9C3F02F481B49",
       "oracle": "0x8685CE9Db06D40CBa73e3d09e6868FE476B5dC89"
+    },
+    "iziAdapter": {
+      "factory": "0x64c2F1306b4ED3183E7B345158fd01c19C0d8c5E",
+      "quoter": "0x95c5F14106ab4d1dc0cFC9326225287c18c2d247",
+      "fees": [100, 400, 2000, 10000]
     }
   }
 }
