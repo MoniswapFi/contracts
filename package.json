@@ -15,6 +15,7 @@
     "deploy:governors:bartio": "npx hardhat run scripts/DeployGovernors.ts --network beraBartio",
     "deploy:aggregator:bartio": "npx hardhat run scripts/DeployAggregator.ts --network beraBartio",
     "set:aggregator:adapters:bartio": "npx hardhat run scripts/SetAggregatorAdapters.ts --network beraBartio",
+    "deploy:iziswap:bartio": "npx hardhat run scripts/DeployIzISwapAdapter.ts --network beraBartio",
     "compile": "npx hardhat compile",
     "jsonify": "npx hardhat solidity-json"
   },
