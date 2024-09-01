@@ -17,6 +17,8 @@
     "set:aggregator:adapters:bartio": "npx hardhat run scripts/SetAggregatorAdapters.ts --network beraBartio",
     "deploy:iziswap:bartio": "npx hardhat run scripts/DeployIzISwapAdapter.ts --network beraBartio",
     "deploy:multicall:bartio": "npx hardhat run scripts/DeployMulticall.ts --network beraBartio",
+    "set:veartproxy:bartio": "npx hardhat run scripts/SetArtProxy.ts --network beraBartio",
+    "create:lock:bartio": "npx hardhat run scripts/CreateLock.ts --network beraBartio",
     "compile": "npx hardhat compile",
     "jsonify": "npx hardhat solidity-json"
   },
