@@ -47,7 +47,7 @@ contract VeArtProxy is IVeArtProxy {
             bytes(
                 string(
                     abi.encodePacked(
-                        "<svg preserveAspectRatio='xMinYMin meet' viewBox='0 0 4000 4000' fill='none' xmlns='http://www.w3.org/2000/svg'>",
+                        '<svg preserveAspectRatio="xMinYMin meet" viewBox="0 0 4000 4000" fill="none" xmlns="http://www.w3.org/2000/svg">',
                         generateShape(cfg),
                         "</svg>"
                     )
@@ -58,20 +58,20 @@ contract VeArtProxy is IVeArtProxy {
         string memory date;
         if (cfg._lockedEnd == 0) {
             if (cfg._lockedAmount == 0) {
-                date = "'Expired'";
+                date = '"Expired"';
             } else {
-                date = "'Permanent'";
+                date = '"Permanent"';
             }
         } else {
             uint256 year;
             uint256 month;
             uint256 day;
             (year, month, day) = BokkyPooBahsDateTimeLibrary.timestampToDate(uint256(cfg._lockedEnd));
-            date = string(abi.encodePacked("'", toString(year), "-", toString(month), "-", toString(day), "'"));
+            date = string(abi.encodePacked('"', toString(year), "-", toString(month), "-", toString(day), '"'));
         }
 
         string memory attributes = string(
-            abi.encodePacked("{", "'trait_type': 'Unlock Date',", "'value': ", date, "},")
+            abi.encodePacked("{", '"trait_type": "Unlock Date",', '"value": ', date, "},")
         );
 
         // stack too deep
@@ -79,18 +79,18 @@ contract VeArtProxy is IVeArtProxy {
             abi.encodePacked(
                 attributes,
                 "{",
-                "'trait_type': 'Voting Power',",
-                "'value': ",
+                '"trait_type": "Voting Power",',
+                '"value": ',
                 toString(cfg._balanceOf / 1e18),
                 "},",
                 "{",
-                "'trait_type': 'Locked MONI',"
+                '"trait_type": "Locked MONI",'
                 '"value": ',
                 toString(cfg._lockedAmount / 1e18),
                 "},"
                 "{",
-                "'display_type': 'number',",
-                "'trait_type': 'Number of Digits',",
+                '"display_type": "number",',
+                '"trait_type": "Number of Digits",',
                 '"value": ',
                 toString(numBalanceDigits(uint256(cfg._balanceOf))),
                 "}"
@@ -102,15 +102,15 @@ contract VeArtProxy is IVeArtProxy {
                 string(
                     abi.encodePacked(
                         "{",
-                        "'name': 'lock #",
+                        '"name": "lock #',
                         toString(cfg._tokenId),
-                        "',",
-                        "'background_color': '121a26',",
-                        "'description': 'Moniswap is a next-generation AMM inspired by Aerodrome, and designed to serve as the Berachain central liquidity hub.',",
-                        "'image_data': 'data:image/svg+xml;base64,",
+                        '",',
+                        '"background_color": "121a26",',
+                        '"description": "Moniswap is a next-generation AMM inspired by Aerodrome, and designed to serve as the Berachain central liquidity hub.",',
+                        '"image_data": "data:image/svg+xml;base64,',
                         output,
-                        "',",
-                        "'attributes': [",
+                        '",',
+                        '"attributes": [',
                         attributes,
                         "]",
                         "}"
@@ -452,13 +452,13 @@ contract VeArtProxy is IVeArtProxy {
         LineConfig memory linecfg = generateLineConfig(cfg, l);
         {
             SVGLine = abi.encodePacked(
-                "<path d='M",
+                '<path d="M',
                 toString(Line[0].x),
                 ",",
                 toString(Line[0].y),
                 lineBulk,
-                "'",
-                " style='stroke-dasharray: ",
+                '"',
+                ' style="stroke-dasharray: ',
                 toString(linecfg.offset),
                 ",",
                 toString(DASH),
@@ -482,13 +482,13 @@ contract VeArtProxy is IVeArtProxy {
                 " stroke-width: 0.",
                 toString(lineThickness[linecfg.stroke]),
                 "%",
-                ";' pathLength='",
+                ';" pathLength="',
                 toString(linecfg.pathLength),
-                "'>",
-                "<animate attributeName='stroke-dashoffset' values='0;",
+                '">',
+                '<animate attributeName="stroke-dashoffset" values="0;',
                 toString(linecfg.offsetDashSum),
-                "' ",
-                "dur='4s' calcMode='linear' repeatCount='indefinite' /></path>"
+                '" ',
+                'dur="4s" calcMode="linear" repeatCount="indefinite" /></path>'
             );
         }
     }
