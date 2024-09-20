@@ -8,13 +8,25 @@
     ],
     "uniswapV3LikeAdapters": [],
     "bexAdapter": {
-      "factory": "0xAB827b1Cc3535A9e549EE387A6E9C3F02F481B49",
+      "factory": "0x21e2C0AFd058A89FCf7caf3aEA3cB84Ae977B73D",
       "oracle": "0x8685CE9Db06D40CBa73e3d09e6868FE476B5dC89"
     },
     "iziAdapter": {
       "factory": "0x64c2F1306b4ED3183E7B345158fd01c19C0d8c5E",
       "quoter": "0x95c5F14106ab4d1dc0cFC9326225287c18c2d247",
       "fees": [100, 400, 2000, 10000]
+    },
+    "honeySwapAdapter": {
+      "factory": "0xAd1782b2a7020631249031618fB1Bd09CD926b31",
+      "honey": "0x0E4aaF1351de4c0264C5c7056Ef3777b41BD8e03"
+    },
+    "berpsVaultAdapter": {
+      "honey": "0x0E4aaF1351de4c0264C5c7056Ef3777b41BD8e03",
+      "bHoney": "0x1306D3c36eC7E38dd2c128fBe3097C2C2449af64",
+      "vault": "0x1306D3c36eC7E38dd2c128fBe3097C2C2449af64"
+    },
+    "memeSwapAdapter": {
+      "factory": "0xaB96973C8F1a91691225F37d7003784e873eD0Cb"
     }
   }
 }
