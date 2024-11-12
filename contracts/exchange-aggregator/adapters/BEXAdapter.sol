@@ -30,9 +30,24 @@ contract BexAdapter is Adapter {
     ) internal view override returns (uint256) {
         if (tokenIn == tokenOut || amountIn == 0) return 0;
 
-        uint8 decimals = ERC20(tokenOut).decimals();
-        uint128 price = ICrocQuery(oracle).queryPrice(tokenIn, tokenOut, 36000);
-        uint256 amountOut = uint256((price << 128) >> 128).mul(amountIn).div(10**decimals);
+        (address base, address quote) = tokenIn < tokenOut ? (tokenIn, tokenOut) : (tokenOut, tokenIn);
+
+        uint8 decimalsIn = ERC20(tokenIn).decimals();
+        uint8 decimalsOut = ERC20(tokenOut).decimals();
+        uint128 price = ICrocQuery(oracle).queryPrice(base, quote, 36000);
+        uint256 amountOut;
+
+        if (price != 0) {
+            uint128 priceSQ = (price * 10**18) >> 64;
+            uint256 _mulPriceSQ = uint256(priceSQ**2);
+            amountOut = _mulPriceSQ == 0
+                ? 0
+                : (
+                    base == tokenIn
+                        ? ((amountIn * 10**decimalsOut) / (_mulPriceSQ / 10**18)) / 10**decimalsIn
+                        : ((_mulPriceSQ / 10**18) * 10**decimalsOut * amountIn) / 10**decimalsIn
+                );
+        }
 
         return amountOut;
     }
@@ -44,6 +59,7 @@ contract BexAdapter is Adapter {
         uint256 amountIn,
         uint256 amountOut
     ) internal override {
+        ERC20(tokenIn).approve(factory, amountIn);
         ICrocMultiSwap.SwapStep[] memory steps = new ICrocMultiSwap.SwapStep[](1);
         steps[0] = ICrocMultiSwap.SwapStep(36000, tokenIn, tokenOut, true);
         ICrocMultiSwap(factory).multiSwap(steps, uint128(amountIn), uint128(amountOut));

@@ -36,18 +36,16 @@ contract IzISwapAdapter is Adapter {
     ) internal view override returns (uint256 amountOut) {
         if (tokenIn == tokenOut || amountIn == 0) return 0;
 
-        address pair = IiZiSwapFactory(factory).pool(tokenIn, tokenOut, 100);
-        uint24 fee = 100;
+        address pair;
+        uint24 fee;
 
-        if (pair == address(0)) {
-            for (uint256 i = 0; i < iziFees.length; i++) {
-                address _pair = IiZiSwapFactory(factory).pool(tokenIn, tokenOut, iziFees[i]);
+        for (uint256 i = 0; i < iziFees.length; i++) {
+            address _pair = IiZiSwapFactory(factory).pool(tokenIn, tokenOut, iziFees[i]);
 
-                if (_pair != address(0)) {
-                    pair = _pair;
-                    fee = iziFees[i];
-                    break;
-                }
+            if (_pair != address(0)) {
+                pair = _pair;
+                fee = iziFees[i];
+                break;
             }
         }
 
