@@ -18,9 +18,10 @@ async function main() {
   const honeySwapAdapter = await deploy<HoneySwapAdapter>(
     "HoneySwapAdapter",
     undefined,
-    constants.honeySwapAdapter.factory,
+    "0xA4aFef880F5cE1f63c9fb48F661E27F8B4216401",
+    "0x285e147060CDc5ba902786d3A471224ee6cE0F91",
     215000,
-    constants.honeySwapAdapter.honey
+    "0xFCBD14DC51f0A4d49d5E53C2E0950e0bC26d0Dce"
   );
   const Adapters = deployedC.Adapters;
   Adapters.push(honeySwapAdapter.address);

@@ -3,7 +3,6 @@ import { deploy, deployLibrary } from "./utils/helpers";
 import { writeFile, readFile } from "fs/promises";
 import { join } from "path";
 import { Libraries } from "hardhat/types";
-import { BigNumber } from "ethers";
 import { network } from "hardhat";
 import {
   ManagedRewardsFactory,
@@ -14,7 +13,6 @@ import {
   Pool,
   Minter,
   RewardsDistributor,
-  AirdropDistributor,
   Router,
   Moni,
   Voter,
@@ -25,7 +23,6 @@ import {
 import constants from "./constants/protocol.json";
 
 interface ProtocolOutput {
-  AirdropDistributor: string;
   ArtProxy: string;
   Distributor: string;
   FactoryRegistry: string;
@@ -41,20 +38,22 @@ interface ProtocolOutput {
   VotingRewardsFactory: string;
 }
 
-interface AirdropInfo {
-  amount: number;
-  wallet: string;
-}
+// interface AirdropInfo {
+//   amount: number;
+//   wallet: string;
+// }
 
 async function main() {
-  // ====== start _deploySetupBefore() ======
-  const AIRDROPPER_BALANCE = 200_000_000;
-  const DECIMAL = BigNumber.from(10).pow(18);
+  // // ====== start _deploySetupBefore() ======
+  // const AIRDROPPER_BALANCE = 200_000_000;
+  // const DECIMAL = BigNumber.from(10).pow(18);
   const jsonConstants = constants[(network.config.chainId as unknown as keyof typeof constants).toString()];
 
   const MONI = await deploy<Moni>("Moni");
   console.log("Deployed MONI");
-  jsonConstants.whitelistTokens.push(MONI.address);
+
+  const whitelistTokens = jsonConstants.whitelistTokens;
+  whitelistTokens.push(MONI.address);
   // ====== end _deploySetupBefore() ======
 
   // ====== start _coreSetup() ======
@@ -137,42 +136,41 @@ async function main() {
   await distributor.setMinter(minter.address);
   await MONI.setMinter(minter.address);
 
-  const airdrop = await deploy<AirdropDistributor>("AirdropDistributor", undefined, escrow.address);
+  // const airdrop = await deploy<AirdropDistributor>("AirdropDistributor", undefined, escrow.address);
 
-  await voter.initialize(jsonConstants.whitelistTokens, minter.address);
+  await voter.initialize(whitelistTokens, minter.address);
   // ====== end _coreSetup() ======
 
   // ====== start _deploySetupAfter() ======
 
   // Minter initialization
-  let lockedAirdropInfo: AirdropInfo[] = jsonConstants.minter.locked;
-  let liquidAirdropInfo: AirdropInfo[] = jsonConstants.minter.liquid;
+  // let lockedAirdropInfo: AirdropInfo[] = jsonConstants.minter.locked;
+  // let liquidAirdropInfo: AirdropInfo[] = jsonConstants.minter.liquid;
 
-  let liquidWallets: string[] = [];
-  let lockedWallets: string[] = [];
-  let liquidAmounts: BigNumber[] = [];
-  let lockedAmounts: BigNumber[] = [];
+  // let liquidWallets: string[] = [];
+  // let lockedWallets: string[] = [];
+  // let liquidAmounts: BigNumber[] = [];
+  // let lockedAmounts: BigNumber[] = [];
 
-  // First add the AirdropDistributor's address and its amount
-  liquidWallets.push(airdrop.address);
-  liquidAmounts.push(BigNumber.from(AIRDROPPER_BALANCE).mul(DECIMAL));
+  // // First add the AirdropDistributor's address and its amount
+  // liquidWallets.push(airdrop.address);
 
-  liquidAirdropInfo.forEach((drop) => {
-    liquidWallets.push(drop.wallet);
-    liquidAmounts.push(BigNumber.from(drop.amount / 1e18).mul(DECIMAL));
-  });
+  // liquidAirdropInfo.forEach((drop) => {
+  //   liquidWallets.push(drop.wallet);
+  //   liquidAmounts.push(BigNumber.from(drop.amount / 1e18).mul(DECIMAL));
+  // });
 
-  lockedAirdropInfo.forEach((drop) => {
-    lockedWallets.push(drop.wallet);
-    lockedAmounts.push(BigNumber.from(drop.amount / 1e18).mul(DECIMAL));
-  });
+  // lockedAirdropInfo.forEach((drop) => {
+  //   lockedWallets.push(drop.wallet);
+  //   lockedAmounts.push(BigNumber.from(drop.amount / 1e18).mul(DECIMAL));
+  // });
 
-  await minter.initialize({
-    liquidWallets: liquidWallets,
-    liquidAmounts: liquidAmounts,
-    lockedWallets: lockedWallets,
-    lockedAmounts: lockedAmounts
-  });
+  // await minter.initialize({
+  //   liquidWallets: liquidWallets,
+  //   liquidAmounts: liquidAmounts,
+  //   lockedWallets: lockedWallets,
+  //   lockedAmounts: lockedAmounts
+  // });
 
   // Set protocol state to team
   await escrow.setTeam(jsonConstants.team);
@@ -192,7 +190,6 @@ async function main() {
   const outputFile = join(process.cwd(), outputDirectory, "ProtocolOutput.json");
 
   const output: ProtocolOutput = {
-    AirdropDistributor: airdrop.address,
     ArtProxy: artProxy.address,
     Distributor: distributor.address,
     FactoryRegistry: factoryRegistry.address,
@@ -219,5 +216,5 @@ async function main() {
 
 main().catch((error) => {
   console.error(error);
-  process.exitCode = 1;
+  process.exit(1);
 });

@@ -2,10 +2,9 @@ import { network } from "hardhat";
 import { deploy } from "./utils/helpers";
 import { writeFile, readFile } from "fs/promises";
 import { join } from "path";
-import constants from "./constants/aggregator.json";
 import protocolConstants from "./constants/protocol.json";
 import deployedContracts from "./constants/output/ProtocolOutput.json";
-import { AggregatorRouter, MoniswapAdapter, UniswapV2Adapter, BexAdapter } from "../artifacts/types";
+import { AggregatorRouter, MoniswapAdapter } from "../artifacts/types";
 
 interface AggregatorOutput {
   Adapters: string[];
@@ -14,33 +13,28 @@ interface AggregatorOutput {
 
 async function main() {
   const chainId = network.config.chainId as number;
-  const aggConstants = constants[chainId as unknown as keyof typeof constants];
+  // const aggConstants = constants[chainId as unknown as keyof typeof constants];
   const pConstants = protocolConstants[chainId as unknown as keyof typeof protocolConstants];
   const deployedCtr = deployedContracts[chainId as unknown as keyof typeof deployedContracts];
 
   const Adapters: string[] = [];
+  const whitelistTokens = pConstants.whitelistTokens;
+  whitelistTokens.push(deployedCtr.MONI);
 
   const moniswapAdapter = await deploy<MoniswapAdapter>("MoniswapAdapter", undefined, deployedCtr.PoolFactory, 215000);
 
   Adapters.push(moniswapAdapter.address);
 
-  for (const adptr of aggConstants.uniswapV2LikeAdapters) {
-    const uniswapV2LikeAdapter = await deploy<UniswapV2Adapter>("UniswapV2Adapter", undefined, adptr.name, adptr.factory, 25, 215000);
-    Adapters.push(uniswapV2LikeAdapter.address);
-  }
+  // for (const adptr of aggConstants.uniswapV2LikeAdapters) {
+  //   const uniswapV2LikeAdapter = await deploy<UniswapV2Adapter>("UniswapV2Adapter", undefined, adptr.name, adptr.factory, 25, 215000);
+  //   Adapters.push(uniswapV2LikeAdapter.address);
+  // }
 
-  const bexAdapter = await deploy<BexAdapter>("BexAdapter", undefined, aggConstants.bexAdapter.factory, 215000, aggConstants.bexAdapter.oracle);
+  // const bexAdapter = await deploy<BexAdapter>("BexAdapter", undefined, aggConstants.bexAdapter.factory, 215000, aggConstants.bexAdapter.oracle);
 
-  Adapters.push(bexAdapter.address);
+  // Adapters.push(bexAdapter.address);
 
-  const aggregatorRouter = await deploy<AggregatorRouter>(
-    "AggregatorRouter",
-    undefined,
-    Adapters,
-    pConstants.team,
-    pConstants.WETH,
-    pConstants.whitelistTokens
-  );
+  const aggregatorRouter = await deploy<AggregatorRouter>("AggregatorRouter", undefined, Adapters, pConstants.team, pConstants.WETH, whitelistTokens);
   const Router = aggregatorRouter.address;
 
   const outputDirectory = "scripts/constants/output";

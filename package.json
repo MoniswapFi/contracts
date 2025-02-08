@@ -6,24 +6,11 @@
   "scripts": {
     "test": "rm -rf artifacts && npx hardhat test",
     "format": "prettier --write **/**/*.{js,json,sol,ts,md}",
-    "deploy:core:bartio": "npx hardhat run scripts/DeployCore.ts --network beraBartio",
-    "deploy:core:bscTestnet": "npx hardhat run scripts/DeployCore.ts --network bscTestnet",
-    "deploy:gauges:bscTestnet": "npx hardhat run scripts/DeployGaugesAndPools.ts --network bscTestnet",
-    "deploy:governors:bscTestnet": "npx hardhat run scripts/DeployGovernors.ts --network bscTestnet",
-    "deploy:aggregator:bscTestnet": "npx hardhat run scripts/DeployAggregator.ts --network bscTestnet",
-    "deploy:gauges:bartio": "npx hardhat run scripts/DeployGaugesAndPools.ts --network beraBartio",
-    "deploy:governors:bartio": "npx hardhat run scripts/DeployGovernors.ts --network beraBartio",
-    "deploy:aggregator:bartio": "npx hardhat run scripts/DeployAggregator.ts --network beraBartio",
-    "deploy:aggregator2:bartio": "npx hardhat run scripts/DeployAggregator2.ts --network beraBartio",
-    "set:aggregator:adapters:bartio": "npx hardhat run scripts/SetAggregatorAdapters.ts --network beraBartio",
-    "deploy:iziswap:bartio": "npx hardhat run scripts/DeployIzISwapAdapter.ts --network beraBartio",
-    "deploy:memeswap:bartio": "npx hardhat run scripts/DeployMemeSwapAdapter.ts --network beraBartio",
-    "deploy:honeyswap:bartio": "npx hardhat run scripts/DeployHoneySwapAdapter.ts --network beraBartio",
-    "deploy:berpsvault:bartio": "npx hardhat run scripts/DeployBerpsVaultAdapter.ts --network beraBartio",
-    "deploy:bex:bartio": "npx hardhat run scripts/DeployBexAdapter.ts --network beraBartio",
-    "deploy:multicall:bartio": "npx hardhat run scripts/DeployMulticall.ts --network beraBartio",
-    "set:veartproxy:bartio": "npx hardhat run scripts/SetArtProxy.ts --network beraBartio",
-    "create:lock:bartio": "npx hardhat run scripts/CreateLock.ts --network beraBartio",
+    "deploy:core": "npx hardhat run scripts/DeployCore.ts",
+    "deploy:aggregator": "npx hardhat run scripts/DeployAggregator.ts",
+    "deploy:kodiakv2": "npx hardhat run scripts/DeployKodiakFinance.ts",
+    "deploy:honeyswap": "npx hardhat run scripts/DeployHoneySwapAdapter.ts",
+    "deploy:memeswap": "npx hardhat run scripts/DeployMemeSwapAdapter.ts",
     "compile": "npx hardhat compile",
     "jsonify": "npx hardhat solidity-json"
   },
@@ -73,6 +60,7 @@
   "dependencies": {
     "@nomicfoundation/hardhat-verify": "^2.0.8",
     "@opengsn/contracts": "^3.0.0-beta.6",
+    "solady": "^0.0.288",
     "solhint": "^5.0.1"
   }
 }

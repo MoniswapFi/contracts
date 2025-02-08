@@ -27,6 +27,22 @@
     },
     "memeSwapAdapter": {
       "factory": "0xaB96973C8F1a91691225F37d7003784e873eD0Cb"
+    },
+    "beraswapAdapter": {
+      "factory": "0xe9a5c44078e0acf37dea305223b0e4548588431a",
+      "name": "Beraswap"
+    },
+    "goldiswapAdapter": {
+      "factory": "0xC94ecBfE16E337f6e606dcd86B8A5eaDbAe7A337",
+      "honey": "0x0E4aaF1351de4c0264C5c7056Ef3777b41BD8e03"
     }
+  },
+  "88094": {
+    "uniswapV2LikeAdapters": [
+      {
+        "factory": "0x5e705e184d233ff2a7cb1553793464a9d0c3028f",
+        "name": "Kodiak Finance V2"
+      }
+    ]
   }
 }

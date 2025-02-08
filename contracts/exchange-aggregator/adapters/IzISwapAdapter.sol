@@ -90,7 +90,11 @@ contract IzISwapAdapter is Adapter {
         require(amountY >= amountOut);
     }
 
-    function swapX2YCallback(uint256 amountX, uint256 amountY, bytes memory) external {
+    function swapX2YCallback(
+        uint256 amountX,
+        uint256 amountY,
+        bytes memory
+    ) external {
         address sender = _msgSender();
         bytes4 tokenXBytes = bytes4(keccak256(bytes("tokenX()")));
         bytes4 tokenYBytes = bytes4(keccak256(bytes("tokenY()")));

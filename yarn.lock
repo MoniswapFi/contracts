@@ -8822,6 +8822,11 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
+solady@^0.0.288:
+  version "0.0.288"
+  resolved "https://registry.yarnpkg.com/solady/-/solady-0.0.288.tgz#97cdd148fa365c7f6094e8ba53e20dbc5f1145c8"
+  integrity sha512-PS0jth/d2vqi6pipGIqc6X93NhrY5tjtLkRXS7vCzbhSf/U14fjhjrx70FoTU2ZlsVvfw3/OFI7r4OjKCqUIjg==
+
 solc@0.7.3:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/solc/-/solc-0.7.3.tgz#04646961bd867a744f63d2b4e3c0701ffdc7d78a"
