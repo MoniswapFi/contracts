@@ -1,21 +1,27 @@
 pragma solidity ^0.8.0;
 
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IHoneyFactory} from "../interfaces/IHoneyFactory.sol";
+import {IHoneyQuery} from "../interfaces/IHoneyQuery.sol";
 import {Adapter} from "../Adapter.sol";
+import "../../helpers/TransferHelper.sol";
 
 contract HoneySwapAdapter is Adapter {
-    address public immutable factory;
+    IHoneyFactory public immutable factory;
     address public immutable honey;
+    IHoneyQuery public immutable oracle;
 
     uint256 MAX_INT = 115792089237316195423570985008687907853269984665640564039457584007913129639935;
 
     constructor(
         address _factory,
+        address query_,
         uint256 _swapGasEstimate,
         address _honey
     ) Adapter("HoneySwap", _swapGasEstimate) {
-        factory = _factory;
+        factory = IHoneyFactory(_factory);
+        oracle = IHoneyQuery(query_);
         honey = _honey;
     }
 
@@ -24,16 +30,14 @@ contract HoneySwapAdapter is Adapter {
         address tokenOut,
         uint256 amountIn
     ) internal view override returns (uint256 _amountOut) {
-        IHoneyFactory fctory = IHoneyFactory(factory);
-
-        if (fctory.vaults(tokenIn) == address(0) || fctory.vaults(tokenOut) == address(0)) _amountOut = 0;
+        if (factory.vaults(tokenIn) == address(0) || factory.vaults(tokenOut) == address(0)) _amountOut = 0;
 
         if (tokenIn != honey && tokenOut != honey) _amountOut = 0;
 
         if (tokenIn == honey) {
-            _amountOut = fctory.vaults(tokenOut) == address(0) ? 0 : fctory.previewRedeem(tokenOut, amountIn);
+            _amountOut = factory.vaults(tokenOut) == address(0) ? 0 : oracle.previewRedeem(tokenOut, amountIn);
         } else if (tokenOut == honey) {
-            _amountOut = fctory.vaults(tokenIn) == address(0) ? 0 : fctory.previewMint(tokenIn, amountIn);
+            _amountOut = factory.vaults(tokenIn) == address(0) ? 0 : oracle.previewMint(tokenIn, amountIn);
         }
     }
 
@@ -46,16 +50,26 @@ contract HoneySwapAdapter is Adapter {
     ) internal override {
         require(tokenIn == honey || tokenOut == honey);
 
-        uint256 _gotten;
-
-        ERC20(tokenIn).approve(factory, MAX_INT);
+        ERC20(tokenIn).approve(address(factory), MAX_INT);
 
         if (tokenIn == honey) {
-            _gotten = IHoneyFactory(factory).redeem(tokenOut, amountIn, to);
-        } else if (tokenOut == honey) {
-            _gotten = IHoneyFactory(factory).mint(tokenIn, amountIn, to);
-        }
+            factory.redeem(tokenOut, amountIn, address(this));
+            uint256 assetBalance = IERC20(tokenOut).balanceOf(address(this));
 
-        require(_gotten >= amountOut);
+            if (assetBalance > amountOut) {
+                TransferHelpers._safeTransferERC20(tokenOut, to, assetBalance);
+            } else {
+                TransferHelpers._safeTransferERC20(tokenOut, to, amountOut);
+            }
+        } else if (tokenOut == honey) {
+            factory.mint(tokenIn, amountIn, address(this));
+            uint256 honeyBalance = IERC20(honey).balanceOf(address(this));
+
+            if (honeyBalance > amountOut) {
+                TransferHelpers._safeTransferERC20(honey, to, honeyBalance);
+            } else {
+                TransferHelpers._safeTransferERC20(honey, to, amountOut);
+            }
+        }
     }
 }

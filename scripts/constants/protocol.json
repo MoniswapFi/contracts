@@ -1,4 +1,55 @@
 {
+  "80094": {
+    "allowedManager": "0x600CD19C0302C44B6cdbEdc9069023e889F7Cc92",
+    "feeManager": "0x600CD19C0302C44B6cdbEdc9069023e889F7Cc92",
+    "emergencyCouncil": "0x600CD19C0302C44B6cdbEdc9069023e889F7Cc92",
+    "team": "0x600CD19C0302C44B6cdbEdc9069023e889F7Cc92",
+    "WETH": "0x6969696969696969696969696969696969696969",
+    "whitelistTokens": [
+      "0x6969696969696969696969696969696969696969",
+      "0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34",
+      "0x7DCC39B4d1C53CB31e1aBc0e358b43987FEF80f7",
+      "0xecAc9C5F704e954931349Da37F60E39f515c11c1",
+      "0xff12470a969Dd362EB6595FFB44C82c959Fe9ACc",
+      "0x09D4214C03D01F49544C0448DBE3A27f768F2b34",
+      "0x549943e04f40284185054145c6E4e9568C1D3241"
+    ],
+    "pools": [
+      {
+        "stable": false,
+        "tokenA": "0x6969696969696969696969696969696969696969",
+        "tokenB": "0x549943e04f40284185054145c6E4e9568C1D3241"
+      },
+      {
+        "stable": false,
+        "tokenA": "0xecAc9C5F704e954931349Da37F60E39f515c11c1",
+        "tokenB": "0x6969696969696969696969696969696969696969"
+      }
+    ],
+    "poolsMoni": [
+      {
+        "stable": false,
+        "token": "0x6969696969696969696969696969696969696969"
+      },
+      {
+        "stable": false,
+        "token": "0x549943e04f40284185054145c6E4e9568C1D3241"
+      },
+      {
+        "stable": false,
+        "token": "0x09D4214C03D01F49544C0448DBE3A27f768F2b34"
+      }
+    ],
+    "minter": {
+      "liquid": [],
+      "locked": [
+        {
+          "amount": 500000000000000000000000000,
+          "wallet": "0x600CD19C0302C44B6cdbEdc9069023e889F7Cc92"
+        }
+      ]
+    }
+  },
   "80084": {
     "allowedManager": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",
     "feeManager": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",

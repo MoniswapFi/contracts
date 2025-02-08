@@ -2,6 +2,7 @@ pragma solidity ^0.8.0;
 
 import {SafeMath} from "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
+import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Adapter} from "../Adapter.sol";
 import {TransferHelpers} from "../../helpers/TransferHelper.sol";
@@ -13,6 +14,8 @@ contract IzISwapAdapter is Adapter {
     address public factory;
     address public quoter;
     uint24[] public iziFees;
+
+    using Address for address;
 
     constructor(
         address _factory,
@@ -77,7 +80,7 @@ contract IzISwapAdapter is Adapter {
             }
         }
 
-        TransferHelpers._safeTransferERC20(tokenIn, pair, amountIn);
+        // TransferHelpers._safeTransferERC20(tokenIn, pair, amountIn);
         (, uint256 amountY) = IiZiSwapPool(pair).swapX2Y(
             to,
             uint128(amountIn),
@@ -85,5 +88,27 @@ contract IzISwapAdapter is Adapter {
             abi.encodePacked(tokenIn, fee, tokenOut)
         );
         require(amountY >= amountOut);
+    }
+
+    function swapX2YCallback(
+        uint256 amountX,
+        uint256 amountY,
+        bytes memory
+    ) external {
+        address sender = _msgSender();
+        bytes4 tokenXBytes = bytes4(keccak256(bytes("tokenX()")));
+        bytes4 tokenYBytes = bytes4(keccak256(bytes("tokenY()")));
+
+        bytes memory tokenXData = sender.functionStaticCall(abi.encodeWithSelector(tokenXBytes));
+        bytes memory tokenYData = sender.functionStaticCall(abi.encodeWithSelector(tokenYBytes));
+
+        address tokenX = abi.decode(tokenXData, (address));
+        address tokenY = abi.decode(tokenYData, (address));
+
+        if (amountX > 0) {
+            TransferHelpers._safeTransferERC20(tokenX, sender, amountX);
+        } else {
+            TransferHelpers._safeTransferERC20(tokenY, sender, amountY);
+        }
     }
 }

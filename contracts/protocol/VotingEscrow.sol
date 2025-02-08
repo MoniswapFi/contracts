@@ -568,8 +568,8 @@ contract VotingEscrow is IVotingEscrow, ERC2771Context, ReentrancyGuard {
     //////////////////////////////////////////////////////////////*/
 
     uint256 internal constant WEEK = 1 weeks;
-    uint256 internal constant MAXTIME = 4 * 365 * 86400;
-    int128 internal constant iMAXTIME = 4 * 365 * 86400;
+    uint256 internal constant MAXTIME = 2 * 365 * 86400;
+    int128 internal constant iMAXTIME = 2 * 365 * 86400;
     uint256 internal constant MULTIPLIER = 1 ether;
 
     /// @inheritdoc IVotingEscrow

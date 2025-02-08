@@ -2,7 +2,7 @@ import { network } from "hardhat";
 import { join } from "path";
 import deployedContracts from "./constants/output/AggregatorOutput.json";
 import { deploy, getContractAt } from "./utils/helpers";
-import { AggregatorRouter, MemeSwapAdapter } from "../artifacts/types";
+import { AggregatorRouter, UniswapV2Adapter } from "../artifacts/types";
 import { writeFile, readFile } from "fs/promises";
 
 interface AggregatorOutput {
@@ -13,9 +13,16 @@ interface AggregatorOutput {
 async function main() {
   const chainId = network.config.chainId as number;
   const deployedC = deployedContracts[chainId as unknown as keyof typeof deployedContracts];
-  const memeSwapAdapter = await deploy<MemeSwapAdapter>("MemeSwapAdapter", undefined, "0x80DA434B49b4d3481aF81D58Eaa3817c888377d4", 25, 215000);
+  const kodiakV2Adapter = await deploy<UniswapV2Adapter>(
+    "UniswapV2Adapter",
+    undefined,
+    "Kodiak Finance V2",
+    "0x5e705e184D233FF2A7cb1553793464a9d0C3028F",
+    25,
+    215000
+  );
   const Adapters = deployedC.Adapters;
-  Adapters.push(memeSwapAdapter.address);
+  Adapters.push(kodiakV2Adapter.address);
 
   const aggregatorRouter = await getContractAt<AggregatorRouter>("AggregatorRouter", deployedC.Router);
   await aggregatorRouter.setAdapters(Adapters);

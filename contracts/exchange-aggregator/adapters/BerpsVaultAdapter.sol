@@ -60,7 +60,11 @@ contract BerpsVaultAdapter is Adapter {
             _vault.withdraw(amountIn, address(this), address(this));
         }
 
-        require(IERC20(tokenOut).balanceOf(address(this)) >= amountOut);
-        TransferHelpers._safeTransferERC20(tokenOut, to, amountOut);
+        uint256 contractBalance = IERC20(tokenOut).balanceOf(address(this));
+
+        if (contractBalance > amountOut) TransferHelpers._safeTransferERC20(tokenOut, to, contractBalance);
+        else TransferHelpers._safeTransferERC20(tokenOut, to, amountOut);
+
+        // require(IERC20(tokenOut).balanceOf(address(this)) >= amountOut);
     }
 }
