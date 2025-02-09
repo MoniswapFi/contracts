@@ -66,15 +66,15 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      beraBartio: "beraBartio"
+      beraMainnet: ""
     },
     customChains: [
       {
-        network: "beraBartio",
-        chainId: 80084,
+        network: "beraMainnet",
+        chainId: 80094,
         urls: {
-          apiURL: "https://api.routescan.io/v2/network/testnet/evm/80084/etherscan",
-          browserURL: "https://bartio.beratrail.io"
+          apiURL: "https://api.berascan.com/api",
+          browserURL: "https://berascan.com"
         }
       }
     ]
