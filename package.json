@@ -11,6 +11,7 @@
     "deploy:kodiakv2": "npx hardhat run scripts/DeployKodiakFinance.ts",
     "deploy:honeyswap": "npx hardhat run scripts/DeployHoneySwapAdapter.ts",
     "deploy:memeswap": "npx hardhat run scripts/DeployMemeSwapAdapter.ts",
+    "deploy:moniswap": "npx hardhat run scripts/DeployMoniswapAdapter.ts",
     "deploy:gauges:pools": "npx hardhat run scripts/DeployGaugesAndPools.ts",
     "deploy:multicall": "npx hardhat run scripts/DeployMulticall.ts",
     "compile": "npx hardhat compile",

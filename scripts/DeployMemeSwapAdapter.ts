@@ -14,7 +14,7 @@ async function main() {
   const chainId = network.config.chainId as number;
   const deployedC = deployedContracts[chainId as unknown as keyof typeof deployedContracts];
   const memeSwapAdapter = await deploy<MemeSwapAdapter>("MemeSwapAdapter", undefined, "0x80DA434B49b4d3481aF81D58Eaa3817c888377d4", 25, 215000);
-  const Adapters = deployedC.Adapters;
+  const Adapters = deployedC.Adapters as string[];
   Adapters.push(memeSwapAdapter.address);
 
   const aggregatorRouter = await getContractAt<AggregatorRouter>("AggregatorRouter", deployedC.Router);

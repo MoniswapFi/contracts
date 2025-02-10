@@ -21,10 +21,9 @@ contract MoniswapAdapter is Adapter {
     ) internal view override returns (uint256) {
         if (tokenIn == tokenOut || amountIn == 0) return 0;
 
-        // Try stable first
-        address pair = IPoolFactory(factory).getPool(tokenIn, tokenOut, true);
-
-        if (pair == address(0)) pair = IPoolFactory(factory).getPool(tokenIn, tokenOut, false); // Try volatile
+        // Try volatile first
+        address pair = IPoolFactory(factory).getPool(tokenIn, tokenOut, false);
+        if (pair == address(0)) pair = IPoolFactory(factory).getPool(tokenIn, tokenOut, true); // Try stable
 
         if (pair == address(0)) return 0;
 
@@ -40,7 +39,6 @@ contract MoniswapAdapter is Adapter {
     ) internal override {
         // Try volatile first
         address pair = IPoolFactory(factory).getPool(tokenIn, tokenOut, false);
-
         if (pair == address(0)) pair = IPoolFactory(factory).getPool(tokenIn, tokenOut, true); // Try stable
 
         (uint256 amount0Out, uint256 amount1Out) = tokenIn < tokenOut

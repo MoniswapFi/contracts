@@ -11,7 +11,7 @@ interface IHoneyFactory {
         address asset,
         uint256 honeyAmount,
         address receiver
-    ) external returns (uint256);
+    ) external returns (uint256[] memory);
 
     function vaults(address asset) external view returns (address vault);
 }
