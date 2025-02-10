@@ -2,7 +2,7 @@ import { network } from "hardhat";
 import { join } from "path";
 import deployedContracts from "./constants/output/AggregatorOutput.json";
 import { deploy, getContractAt } from "./utils/helpers";
-import { AggregatorRouter, UniswapV2Adapter } from "../artifacts/types";
+import { AggregatorRouter, MoniswapAdapter } from "../artifacts/types";
 import { writeFile, readFile } from "fs/promises";
 
 interface AggregatorOutput {
@@ -13,16 +13,9 @@ interface AggregatorOutput {
 async function main() {
   const chainId = network.config.chainId as number;
   const deployedC = deployedContracts[chainId as unknown as keyof typeof deployedContracts];
-  const kodiakV2Adapter = await deploy<UniswapV2Adapter>(
-    "UniswapV2Adapter",
-    undefined,
-    "Kodiak Finance V2",
-    "0x5e705e184D233FF2A7cb1553793464a9d0C3028F",
-    25,
-    215000
-  );
+  const moniswapAdapter = await deploy<MoniswapAdapter>("MoniswapAdapter", undefined, "0xf886ABaCe837E5EC0CF7037B4d2198F7a1bf35B5", 215000);
   const Adapters = deployedC.Adapters as string[];
-  Adapters.push(kodiakV2Adapter.address);
+  Adapters.push(moniswapAdapter.address);
 
   const aggregatorRouter = await getContractAt<AggregatorRouter>("AggregatorRouter", deployedC.Router);
   await aggregatorRouter.setAdapters(Adapters);

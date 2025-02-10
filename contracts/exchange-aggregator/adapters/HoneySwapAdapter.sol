@@ -30,9 +30,9 @@ contract HoneySwapAdapter is Adapter {
         address tokenOut,
         uint256 amountIn
     ) internal view override returns (uint256 _amountOut) {
-        if (factory.vaults(tokenIn) == address(0) || factory.vaults(tokenOut) == address(0)) _amountOut = 0;
-
-        if (tokenIn != honey && tokenOut != honey) _amountOut = 0;
+        if (factory.vaults(tokenIn) == address(0) || factory.vaults(tokenOut) == address(0)) return 0;
+        if (tokenIn != honey && tokenOut != honey) return 0;
+        if (amountIn == 0) return 0;
 
         if (tokenIn == honey) {
             _amountOut = factory.vaults(tokenOut) == address(0) ? 0 : oracle.previewRedeem(tokenOut, amountIn);
@@ -63,12 +63,12 @@ contract HoneySwapAdapter is Adapter {
             }
         } else if (tokenOut == honey) {
             factory.mint(tokenIn, amountIn, address(this));
-            uint256 honeyBalance = IERC20(honey).balanceOf(address(this));
+            uint256 honeyBalance = IERC20(tokenOut).balanceOf(address(this));
 
             if (honeyBalance > amountOut) {
-                TransferHelpers._safeTransferERC20(honey, to, honeyBalance);
+                TransferHelpers._safeTransferERC20(tokenOut, to, honeyBalance);
             } else {
-                TransferHelpers._safeTransferERC20(honey, to, amountOut);
+                TransferHelpers._safeTransferERC20(tokenOut, to, amountOut);
             }
         }
     }
