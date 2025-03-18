@@ -66,7 +66,7 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      beraMainnet: ""
+      beraMainnet: "QJEEMJNMI4B2M3ZB52C9SI7A1R6A1S3GCG"
     },
     customChains: [
       {
