@@ -12,10 +12,13 @@
     "deploy:honeyswap": "npx hardhat run scripts/DeployHoneySwapAdapter.ts",
     "deploy:memeswap": "npx hardhat run scripts/DeployMemeSwapAdapter.ts",
     "deploy:moniswap": "npx hardhat run scripts/DeployMoniswapAdapter.ts",
+    "deploy:beraswap": "npx hardhat run scripts/DeployBeraSwapAdapter.ts",
+    "deploy:forestbear": "npx hardhat run scripts/DeployForestBear.ts",
     "deploy:gauges:pools": "npx hardhat run scripts/DeployGaugesAndPools.ts",
     "deploy:multicall": "npx hardhat run scripts/DeployMulticall.ts",
     "compile": "npx hardhat compile",
-    "jsonify": "npx hardhat solidity-json"
+    "jsonify": "npx hardhat solidity-json",
+    "build": "yarn compile && yarn jsonify"
   },
   "repository": {
     "type": "git",

@@ -13,9 +13,6 @@ import {ERC2771Context} from "@openzeppelin/contracts/metatx/ERC2771Context.sol"
 import {ReentrancyGuard} from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import {ProtocolTimeLibrary} from "../libraries/ProtocolTimeLibrary.sol";
 
-/// @title Protocol Gauge
-/// @author veldorome.finance, @figs999, @pegahcarter
-/// @notice Gauge contract for distribution of emissions by address
 contract Gauge is IGauge, ERC2771Context, ReentrancyGuard {
     using SafeERC20 for IERC20;
     /// @inheritdoc IGauge

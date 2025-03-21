@@ -55,6 +55,41 @@
       ]
     }
   },
+  "80069": {
+    "allowedManager": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",
+    "feeManager": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",
+    "emergencyCouncil": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",
+    "team": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",
+    "WETH": "0x6969696969696969696969696969696969696969",
+    "whitelistTokens": ["0x6969696969696969696969696969696969696969", "0xFCBD14DC51f0A4d49d5E53C2E0950e0bC26d0Dce"],
+    "pools": [
+      {
+        "stable": false,
+        "tokenA": "0x6969696969696969696969696969696969696969",
+        "tokenB": "0xFCBD14DC51f0A4d49d5E53C2E0950e0bC26d0Dce"
+      },
+      {
+        "stable": false,
+        "tokenA": "0x137Df25cAbf220A180300604E57551AC1397959d",
+        "tokenB": "0x6969696969696969696969696969696969696969"
+      }
+    ],
+    "poolsMoni": [
+      {
+        "stable": false,
+        "token": "0x6969696969696969696969696969696969696969"
+      }
+    ],
+    "minter": {
+      "liquid": [],
+      "locked": [
+        {
+          "amount": 500000000000000000000000000,
+          "wallet": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578"
+        }
+      ]
+    }
+  },
   "80084": {
     "allowedManager": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",
     "feeManager": "0xb69DB7b7B3aD64d53126DCD1f4D5fBDaea4fF578",

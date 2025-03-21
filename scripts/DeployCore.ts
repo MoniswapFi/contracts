@@ -18,9 +18,16 @@ import {
   Voter,
   VeArtProxy,
   VotingEscrow,
-  ProtocolForwarder
+  ProtocolForwarder,
+  AirdropDistributor,
+  TradeHelper,
+  PoolHelper,
+  VeNFTHelper,
+  RewardHelper,
+  ExchangeHelper
 } from "../artifacts/types";
 import constants from "./constants/protocol.json";
+import { BigNumber } from "ethers";
 
 interface ProtocolOutput {
   ArtProxy: string;
@@ -36,17 +43,22 @@ interface ProtocolOutput {
   Voter: string;
   VotingEscrow: string;
   VotingRewardsFactory: string;
+  TradeHelper: string;
+  veNFTHelper: string;
+  ExchangeHelper: string;
+  RewardHelper: string;
+  PoolHelper: string;
 }
 
-// interface AirdropInfo {
-//   amount: number;
-//   wallet: string;
-// }
+interface AirdropInfo {
+  amount: number;
+  wallet: string;
+}
 
 async function main() {
-  // // ====== start _deploySetupBefore() ======
-  // const AIRDROPPER_BALANCE = 200_000_000;
-  // const DECIMAL = BigNumber.from(10).pow(18);
+  // ====== start _deploySetupBefore() ======
+  const AIRDROPPER_BALANCE = 200_000_000;
+  const DECIMAL = BigNumber.from(10).pow(18);
   const jsonConstants = constants[(network.config.chainId as unknown as keyof typeof constants).toString()];
 
   const MONI = await deploy<Moni>("Moni");
@@ -136,7 +148,7 @@ async function main() {
   await distributor.setMinter(minter.address);
   await MONI.setMinter(minter.address);
 
-  // const airdrop = await deploy<AirdropDistributor>("AirdropDistributor", undefined, escrow.address);
+  const airdrop = await deploy<AirdropDistributor>("AirdropDistributor", undefined, escrow.address);
 
   await voter.initialize(whitelistTokens, minter.address);
   // ====== end _coreSetup() ======
@@ -144,33 +156,34 @@ async function main() {
   // ====== start _deploySetupAfter() ======
 
   // Minter initialization
-  // let lockedAirdropInfo: AirdropInfo[] = jsonConstants.minter.locked;
-  // let liquidAirdropInfo: AirdropInfo[] = jsonConstants.minter.liquid;
+  let lockedAirdropInfo: AirdropInfo[] = jsonConstants.minter.locked;
+  let liquidAirdropInfo: AirdropInfo[] = jsonConstants.minter.liquid;
 
-  // let liquidWallets: string[] = [];
-  // let lockedWallets: string[] = [];
-  // let liquidAmounts: BigNumber[] = [];
-  // let lockedAmounts: BigNumber[] = [];
+  let liquidWallets: string[] = [];
+  let lockedWallets: string[] = [];
+  let liquidAmounts: BigNumber[] = [];
+  let lockedAmounts: BigNumber[] = [];
 
-  // // First add the AirdropDistributor's address and its amount
-  // liquidWallets.push(airdrop.address);
+  // First add the AirdropDistributor's address and its amount
+  liquidWallets.push(airdrop.address);
+  liquidAmounts.push(BigNumber.from(AIRDROPPER_BALANCE).mul(DECIMAL));
 
-  // liquidAirdropInfo.forEach((drop) => {
-  //   liquidWallets.push(drop.wallet);
-  //   liquidAmounts.push(BigNumber.from(drop.amount / 1e18).mul(DECIMAL));
-  // });
+  liquidAirdropInfo.forEach((drop) => {
+    liquidWallets.push(drop.wallet);
+    liquidAmounts.push(BigNumber.from(drop.amount / 1e18).mul(DECIMAL));
+  });
 
-  // lockedAirdropInfo.forEach((drop) => {
-  //   lockedWallets.push(drop.wallet);
-  //   lockedAmounts.push(BigNumber.from(drop.amount / 1e18).mul(DECIMAL));
-  // });
+  lockedAirdropInfo.forEach((drop) => {
+    lockedWallets.push(drop.wallet);
+    lockedAmounts.push(BigNumber.from(drop.amount / 1e18).mul(DECIMAL));
+  });
 
-  // await minter.initialize({
-  //   liquidWallets: liquidWallets,
-  //   liquidAmounts: liquidAmounts,
-  //   lockedWallets: lockedWallets,
-  //   lockedAmounts: lockedAmounts
-  // });
+  await minter.initialize({
+    liquidWallets: liquidWallets,
+    liquidAmounts: liquidAmounts,
+    lockedWallets: lockedWallets,
+    lockedAmounts: lockedAmounts
+  });
 
   // Set protocol state to team
   await escrow.setTeam(jsonConstants.team);
@@ -183,6 +196,20 @@ async function main() {
 
   await poolFactory.setFeeManager(jsonConstants.feeManager);
   await poolFactory.setVoter(voter.address);
+
+  // Deploy helpers
+  const tradeHelper = await deploy<TradeHelper>("TradeHelper", undefined, poolFactory.address);
+  const poolHelper = await deploy<PoolHelper>("PoolHelper", undefined, voter.address, poolFactory.address);
+  const venftHelper = await deploy<VeNFTHelper>(
+    "veNFTHelper",
+    undefined,
+    voter.address,
+    distributor.address,
+    poolHelper.address,
+    poolFactory.address
+  );
+  const rewardHelper = await deploy<RewardHelper>("RewardHelper", undefined, voter.address, poolFactory.address);
+  const exchangeHelper = await deploy<ExchangeHelper>("ExchangeHelper", undefined, tradeHelper.address, voter.address, jsonConstants.WETH);
 
   // ====== end _deploySetupAfter() ======
 
@@ -202,7 +229,12 @@ async function main() {
     MONI: MONI.address,
     Voter: voter.address,
     VotingEscrow: escrow.address,
-    VotingRewardsFactory: votingRewardsFactory.address
+    VotingRewardsFactory: votingRewardsFactory.address,
+    TradeHelper: tradeHelper.address,
+    PoolHelper: poolHelper.address,
+    veNFTHelper: venftHelper.address,
+    ExchangeHelper: exchangeHelper.address,
+    RewardHelper: rewardHelper.address
   };
 
   try {

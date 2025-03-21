@@ -27,5 +27,14 @@ interface IBeraSwapVault {
         FundManagement memory funds,
         uint256 limit,
         uint256 deadline
-    ) external payable returns (uint256);
+    ) external returns (uint256);
+
+    function getPoolTokens(bytes32 poolId)
+        external
+        view
+        returns (
+            address[] memory tokens,
+            uint256[] memory balances,
+            uint256 lastChangeBlock
+        );
 }
