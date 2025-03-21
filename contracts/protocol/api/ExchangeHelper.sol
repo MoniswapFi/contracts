@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 import "../interfaces/factories/IPoolFactory.sol";
 import "../rewards/Reward.sol";
 import "../Pool.sol";
-import "../interfaces/IOracle.sol";
+import "../../oracle/Oracle.sol";
 import "../interfaces/ITradeHelper.sol";
 import "../Voter.sol";
 import "../libraries/ProtocolTimeLibrary.sol";
@@ -12,7 +12,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract ExchangeHelper is Ownable {
     IPoolFactory public poolFactory;
     ITradeHelper public tradeHelper;
-    IOracle public priceOracle;
+    Oracle public priceOracle;
     address public wETH;
     Voter public voter;
 
@@ -196,6 +196,6 @@ contract ExchangeHelper is Ownable {
     }
 
     function setPriceOracle(address _priceOracle) external onlyOwner {
-        priceOracle = IOracle(_priceOracle);
+        priceOracle = Oracle(_priceOracle);
     }
 }

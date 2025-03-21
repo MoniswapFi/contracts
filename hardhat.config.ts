@@ -58,6 +58,14 @@ const config: HardhatUserConfig = {
       url: "https://rpc.ankr.com/bsc_testnet_chapel/7aa3ec98398d86e381952176c8b3db66b572761888fc42546e83e4b0e4a671ae",
       accounts: [process.env.PRIVATE_KEY as string], // Try stealing the funds in this
       chainId: 97
+    },
+    bepolia: {
+      url: "https://bepolia.rpc.berachain.com",
+      chainId: 80069,
+      accounts: [process.env.PRIVATE_KEY as string],
+      gasPrice: "auto",
+      gas: "auto",
+      gasMultiplier: 1
     }
   },
   typechain: {
