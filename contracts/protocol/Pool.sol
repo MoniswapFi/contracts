@@ -173,6 +173,11 @@ contract Pool is IPool, ERC20Permit, ReentrancyGuard {
     function _update0(uint256 amount) internal {
         // Only update on this pool if there is a fee
         if (amount == 0) return;
+        // Dibs
+        address protocol = IPoolFactory(factory).protocolAddress();
+        uint256 dibs = (amount * IPoolFactory(factory).PROTOCOL_DIBS()) / 10000; // 1% to protocol
+        IERC20(token0).safeTransfer(protocol, dibs);
+        amount -= dibs;
         IERC20(token0).safeTransfer(poolFees, amount); // transfer the fees out to PoolFees
         uint256 _ratio = (amount * 1e18) / totalSupply(); // 1e18 adjustment is removed during claim
         if (_ratio > 0) {
@@ -185,6 +190,11 @@ contract Pool is IPool, ERC20Permit, ReentrancyGuard {
     function _update1(uint256 amount) internal {
         // Only update on this pool if there is a fee
         if (amount == 0) return;
+        // Dibs
+        address protocol = IPoolFactory(factory).protocolAddress();
+        uint256 dibs = (amount * IPoolFactory(factory).PROTOCOL_DIBS()) / 10000; // 1% to protocol
+        IERC20(token1).safeTransfer(protocol, dibs);
+        amount -= dibs;
         IERC20(token1).safeTransfer(poolFees, amount);
         uint256 _ratio = (amount * 1e18) / totalSupply();
         if (_ratio > 0) {

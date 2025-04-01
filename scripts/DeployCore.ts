@@ -57,7 +57,7 @@ interface AirdropInfo {
 
 async function main() {
   // ====== start _deploySetupBefore() ======
-  const AIRDROPPER_BALANCE = 200_000_000;
+  const AIRDROPPER_BALANCE = 50_000_000;
   const DECIMAL = BigNumber.from(10).pow(18);
   const jsonConstants = constants[(network.config.chainId as unknown as keyof typeof constants).toString()];
 

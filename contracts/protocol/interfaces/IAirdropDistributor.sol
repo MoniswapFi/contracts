@@ -8,6 +8,7 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 interface IAirdropDistributor {
     error InvalidParams();
     error InsufficientBalance();
+    error NoAllocation();
 
     event Airdrop(address indexed _wallet, uint256 _amount, uint256 _tokenId);
 
@@ -21,4 +22,10 @@ interface IAirdropDistributor {
     /// @param _wallets Addresses of wallets to receive the Airdrop
     /// @param _amounts Amounts to be Airdropped
     function distributeTokens(address[] memory _wallets, uint256[] memory _amounts) external;
+
+    /// @notice Caller can claim specified airdrop amounts
+    function claimAirdrop() external;
+
+    /// @notice Amounts distributed to wallets
+    function distributedAmounts(address _wallet) external view returns (uint256);
 }
