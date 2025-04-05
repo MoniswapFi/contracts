@@ -9,6 +9,7 @@ abstract contract Sale is Ownable {
     error NotStarted();
     error AlreadyStarted();
     error AlreadyEnded();
+    error NotEnded();
     error Blacklisted();
     error SlotLimited(uint256 expected, uint256 available);
     error IsZeroAmount();
@@ -66,7 +67,7 @@ abstract contract Sale is Ownable {
 
         if (address(_exchangeToken) == address(0) || address(_exchangeToken) == ETHER) EXCHANGE_TOKEN_DECIMALS = 18;
         else {
-            EXCHANGE_TOKEN_DECIMALS = _exchangeToken.decimals();
+            EXCHANGE_TOKEN_DECIMALS = ERC20(address(_exchangeToken)).decimals();
         }
     }
 
@@ -76,7 +77,7 @@ abstract contract Sale is Ownable {
 
     function _beforeContribute(address contributor, uint256 amountContributed) internal virtual {
         if (block.timestamp < startTime) revert NotStarted();
-        if (block.timestamp > startTime + duration) revert AlreadyEnded();
+        if (block.timestamp >= startTime + duration) revert AlreadyEnded();
         if (blacklist[contributor]) revert Blacklisted();
 
         uint256 allocation = _getAllocation(amountContributed); // Allocation that is due to this contributor for this amount contributed
@@ -104,6 +105,12 @@ abstract contract Sale is Ownable {
         }
     }
 
+    function notifyReward(uint256 amount) external onlyOwner {
+        if (block.timestamp >= startTime + duration) revert AlreadyEnded();
+        soldToken.safeTransferFrom(_msgSender(), address(this), amount);
+        slotLeft += amount;
+    }
+
     function rescindContribution() external {
         address sender = _msgSender();
         uint256 contribution = contributions[sender];
@@ -121,15 +128,34 @@ abstract contract Sale is Ownable {
         }
     }
 
-    function _claimAllocation(address account) internal virtual {}
+    function _claimAllocation(address account) internal virtual returns (uint256, uint256) {}
 
-    function claimAllocation() external virtual {
-      address sender = _msgSender();
-      _claimAllocation(sender);
+    function claimAllocation() external {
+        address sender = _msgSender();
+        (uint256 contribution, uint256 allocation) = _claimAllocation(sender);
+        contributions[sender] -= contribution;
+        slotLeft -= allocation;
+    }
+
+    function reap() external onlyOwner {
+        if (block.timestamp < startTime + duration) revert NotEnded();
+        address _tk = address(exchangeToken);
+
+        if (_tk == ETHER || _tk == address(0)) {
+            uint256 balance = address(this).balance;
+            (bool success, ) = receiver.call{value: balance}(new bytes(0));
+            require(success, "failed to transfer ether");
+        } else {
+            exchangeToken.safeTransfer(receiver, exchangeToken.balanceOf(address(this)));
+        }
+
+        if (slotLeft > 0) {
+            soldToken.safeTransfer(_msgSender(), slotLeft);
+        }
     }
 
     function forceStart() external onlyOwner {
-        if (block.timestamp > startTime) revert AlreadyStarted();
+        if (block.timestamp >= startTime) revert AlreadyStarted();
         startTime = block.timestamp;
     }
 
@@ -141,4 +167,6 @@ abstract contract Sale is Ownable {
     function switchBlacklistStatus(address account) external onlyOwner {
         blacklist[account] = !blacklist[account];
     }
+
+    receive() external payable {}
 }
