@@ -20,6 +20,8 @@ interface IPoolFactory {
     error ZeroFee();
     error ZeroAddress();
 
+    function PROTOCOL_DIBS() external view returns (uint256);
+
     /// @notice Returns the pool address at a specified index
     function allPools(uint256) external view returns (address);
 

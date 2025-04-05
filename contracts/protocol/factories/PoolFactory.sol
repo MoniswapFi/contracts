@@ -14,6 +14,7 @@ contract PoolFactory is IPoolFactory {
     uint256 public stableFee;
     uint256 public volatileFee;
     uint256 public constant MAX_FEE = 300; // 3%
+    uint256 public constant PROTOCOL_DIBS = 100; // 1%
     // Override to indicate there is custom 0% fee - as a 0 value in the customFee mapping indicates
     // that no custom fee rate has been set
     uint256 public constant ZERO_FEE_INDICATOR = 420;
@@ -22,6 +23,7 @@ contract PoolFactory is IPoolFactory {
     /// @dev used to change the name/symbol of the pool by calling emergencyCouncil
     address public voter;
 
+    /// @dev For dibs
     address public protocolAddress;
 
     mapping(address => mapping(address => mapping(bool => address))) private _getPool;

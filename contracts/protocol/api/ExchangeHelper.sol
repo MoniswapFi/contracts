@@ -161,14 +161,11 @@ contract ExchangeHelper is Ownable {
         totalValue = 0;
 
         if (gauge != address(0)) {
-            Reward bribe = Reward(voter.gaugeToFees(gauge));
-            uint256 rewardTokensLength = bribe.rewardsListLength();
+            Reward fee = Reward(voter.gaugeToFees(gauge));
+            uint256 rewardTokensLength = fee.rewardsListLength();
             for (uint256 i; i < rewardTokensLength; i++) {
-                address rewardToken = bribe.rewards(i);
-                uint256 reward = bribe.tokenRewardsPerEpoch(
-                    rewardToken,
-                    ProtocolTimeLibrary.epochStart(block.timestamp)
-                );
+                address rewardToken = fee.rewards(i);
+                uint256 reward = fee.tokenRewardsPerEpoch(rewardToken, ProtocolTimeLibrary.epochStart(block.timestamp));
                 (uint256 rewardInUsd, ) = priceOracle.getAverageValueInUSD(rewardToken, reward);
                 totalValue += rewardInUsd;
             }
@@ -191,6 +188,48 @@ contract ExchangeHelper is Ownable {
             Pool pool = Pool(poolFactory.allPools(i));
             uint256 poolFeeUSD = getFeesInUSDForPool(pool);
             totalValue += poolFeeUSD;
+            pools[i] = pool;
+            fees[i] += poolFeeUSD;
+        }
+    }
+
+    function getBribesInUSDForPool(Pool pool) public view returns (uint256 totalValue) {
+        address gauge = voter.gauges(address(pool));
+
+        totalValue = 0;
+
+        if (gauge != address(0)) {
+            Reward bribe = Reward(voter.gaugeToBribe(gauge));
+            uint256 rewardTokensLength = bribe.rewardsListLength();
+            for (uint256 i; i < rewardTokensLength; i++) {
+                address rewardToken = bribe.rewards(i);
+                uint256 reward = bribe.tokenRewardsPerEpoch(
+                    rewardToken,
+                    ProtocolTimeLibrary.epochStart(block.timestamp)
+                );
+                (uint256 rewardInUsd, ) = priceOracle.getAverageValueInUSD(rewardToken, reward);
+                totalValue += rewardInUsd;
+            }
+        }
+    }
+
+    function getBribesInUSDForAllPools()
+        external
+        view
+        returns (
+            uint256 totalValue,
+            uint256[] memory bribes,
+            Pool[] memory pools
+        )
+    {
+        uint256 poolsLength = poolFactory.allPoolsLength();
+        pools = new Pool[](poolsLength);
+        bribes = new uint256[](poolsLength);
+        for (uint256 i; i < poolsLength; i++) {
+            Pool pool = Pool(poolFactory.allPools(i));
+            uint256 poolBribeUSD = getBribesInUSDForPool(pool);
+            totalValue += poolBribeUSD;
+            bribes[i] = poolBribeUSD;
             pools[i] = pool;
         }
     }
