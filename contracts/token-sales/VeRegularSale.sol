@@ -1,21 +1,21 @@
 pragma solidity ^0.8.0;
 
-import {PrivateSale} from "./PrivateSale.sol";
+import {RegularSale} from "./RegularSale.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IVotingEscrow} from "../protocol/interfaces/IVotingEscrow.sol";
 
 /// @title VePrivateSale
 /// @author Kingsley Victor
-/// @notice Special private sale
-contract VePrivateSale is PrivateSale {
+/// @notice Special public sale
+contract VeRegularSale is RegularSale {
     error NotSameToken();
 
     using SafeERC20 for IERC20;
 
     IVotingEscrow public votingEscrow;
 
-    constructor() PrivateSale() {}
+    constructor() RegularSale() {}
 
     function setVe(IVotingEscrow _votingEscrow) external onlyOwner {
         votingEscrow = _votingEscrow;

@@ -16,6 +16,8 @@
     "deploy:forestbear": "npx hardhat run scripts/DeployForestBear.ts",
     "deploy:gauges:pools": "npx hardhat run scripts/DeployGaugesAndPools.ts",
     "deploy:multicall": "npx hardhat run scripts/DeployMulticall.ts",
+    "deploy:test:stables": "npx hardhat run scripts/DeployTestStables.ts",
+    "deploy:test:rs": "npx hardhat run scripts/DeployTestRegularSale.ts",
     "compile": "npx hardhat compile",
     "jsonify": "npx hardhat solidity-json",
     "build": "yarn compile && yarn jsonify"
