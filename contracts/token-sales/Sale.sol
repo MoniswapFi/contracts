@@ -25,6 +25,7 @@ abstract contract Sale is Ownable {
     uint256 public startTime;
     uint256 public duration;
     uint256 public slotLeft;
+    uint256 public slotFilled;
     uint256 public rate; // Rate of sold token => payment token
     uint8 public EXCHANGE_TOKEN_DECIMALS;
 
@@ -36,7 +37,7 @@ abstract contract Sale is Ownable {
 
     mapping(address => uint256) public contributions; // User's contributions
     mapping(address => bool) public blacklist; // User blocked
-    mapping(address => bool) public hasClaimed; // User has claimed
+    // mapping(address => bool) public hasClaimed; // User has claimed
 
     SaleType public saleType;
 
@@ -95,12 +96,14 @@ abstract contract Sale is Ownable {
             uint256 allocation = _getAllocation(value);
             contributions[sender] += value;
             slotLeft -= allocation;
+            slotFilled += allocation;
         } else {
             if (amount == 0) revert IsZeroAmount();
             _beforeContribute(sender, amount);
             uint256 allocation = _getAllocation(amount);
             contributions[sender] += amount;
             slotLeft -= allocation;
+            slotFilled += allocation;
             exchangeToken.safeTransferFrom(sender, address(this), amount);
         }
     }
@@ -118,6 +121,7 @@ abstract contract Sale is Ownable {
         uint256 allocation = _getAllocation(contribution);
         contributions[sender] = 0;
         slotLeft += allocation;
+        slotFilled -= allocation;
         address _tk = address(exchangeToken);
 
         if (_tk == ETHER || _tk == address(0)) {
@@ -135,6 +139,7 @@ abstract contract Sale is Ownable {
         (uint256 contribution, uint256 allocation) = _claimAllocation(sender);
         contributions[sender] -= contribution;
         slotLeft -= allocation;
+        slotFilled += allocation;
     }
 
     function reap() external onlyOwner {
@@ -162,6 +167,24 @@ abstract contract Sale is Ownable {
     function forceEnd() external onlyOwner {
         if (block.timestamp > startTime + duration) revert AlreadyEnded();
         duration = block.timestamp - startTime;
+    }
+
+    function extendStart(uint256 _duration, bool fromPresent) external onlyOwner {
+        if (block.timestamp > startTime + duration) revert AlreadyEnded();
+        if (fromPresent) {
+            startTime = block.timestamp + _duration;
+        } else {
+            startTime = startTime + _duration;
+        }
+    }
+
+    function extendDuration(uint256 _duration, bool extendBy) external onlyOwner {
+        if (block.timestamp > startTime + duration) revert AlreadyEnded();
+        if (extendBy) {
+            duration = duration + _duration;
+        } else {
+            duration = _duration;
+        }
     }
 
     function switchBlacklistStatus(address account) external onlyOwner {

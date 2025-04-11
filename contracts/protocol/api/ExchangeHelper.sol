@@ -19,12 +19,14 @@ contract ExchangeHelper is Ownable {
     constructor(
         address _tradeHelper,
         address _voter,
-        address _wETH
+        address _wETH,
+        address _oracle
     ) Ownable() {
         tradeHelper = ITradeHelper(_tradeHelper);
         poolFactory = IPoolFactory(tradeHelper.factory());
         wETH = _wETH;
         voter = Voter(_voter);
+        priceOracle = Oracle(_oracle);
     }
 
     function getTVLInUSDForPool(Pool pool)

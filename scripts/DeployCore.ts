@@ -24,7 +24,8 @@ import {
   PoolHelper,
   VeNFTHelper,
   RewardHelper,
-  ExchangeHelper
+  ExchangeHelper,
+  Oracle
 } from "../artifacts/types";
 import constants from "./constants/protocol.json";
 import { BigNumber } from "ethers";
@@ -48,6 +49,7 @@ interface ProtocolOutput {
   ExchangeHelper: string;
   RewardHelper: string;
   PoolHelper: string;
+  Oracle: string;
 }
 
 interface AirdropInfo {
@@ -197,6 +199,9 @@ async function main() {
   await poolFactory.setFeeManager(jsonConstants.feeManager);
   await poolFactory.setVoter(voter.address);
 
+  // Deploy oracle
+  const oracle = await deploy<Oracle>("Oracle", undefined, []);
+
   // Deploy helpers
   const tradeHelper = await deploy<TradeHelper>("TradeHelper", undefined, poolFactory.address);
   const poolHelper = await deploy<PoolHelper>("PoolHelper", undefined, voter.address, poolFactory.address);
@@ -209,7 +214,14 @@ async function main() {
     poolFactory.address
   );
   const rewardHelper = await deploy<RewardHelper>("RewardHelper", undefined, voter.address, poolFactory.address);
-  const exchangeHelper = await deploy<ExchangeHelper>("ExchangeHelper", undefined, tradeHelper.address, voter.address, jsonConstants.WETH);
+  const exchangeHelper = await deploy<ExchangeHelper>(
+    "ExchangeHelper",
+    undefined,
+    tradeHelper.address,
+    voter.address,
+    jsonConstants.WETH,
+    oracle.address
+  );
 
   // ====== end _deploySetupAfter() ======
 
@@ -234,7 +246,8 @@ async function main() {
     PoolHelper: poolHelper.address,
     veNFTHelper: venftHelper.address,
     ExchangeHelper: exchangeHelper.address,
-    RewardHelper: rewardHelper.address
+    RewardHelper: rewardHelper.address,
+    Oracle: oracle.address
   };
 
   try {
